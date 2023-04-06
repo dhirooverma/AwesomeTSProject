@@ -30,13 +30,24 @@ const ActivityTable = props => {
               borderTopWidth: 0.5,
             }}>
             <View style={styles.cellStyle1}>
-              <Text style={styles.bodyText}>{data.activity}</Text>
+              <Text numberOfLines={1} style={styles.bodyText}>
+                {data.activity}
+              </Text>
             </View>
             <View style={styles.cellStyle1}>
-              <Text style={styles.bodyText}>{data.activity_description}</Text>
+              <Text numberOfLines={1} style={styles.bodyText}>
+                {data.activity_description}
+              </Text>
             </View>
             <View style={styles.cellStyle2}>
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity
+                style={{flexDirection: 'row'}}
+                onPress={() => {}}>
+                <Ionicons
+                  name="create-outline"
+                  size={30}
+                  color={color.PRIMARY_BLUE}
+                />
                 <Ionicons
                   name="eye-outline"
                   size={30}
