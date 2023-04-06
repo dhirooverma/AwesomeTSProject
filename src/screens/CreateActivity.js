@@ -336,7 +336,13 @@ const CreateActivity = props => {
             )}
           />
           <View style={{marginBottom: 150}}>
-            <Button title={'Submit'} onPress={handleSubmit(onSubmit)} />
+            <Button
+              title={'Submit'}
+              onPress={
+                // handleSubmit(onSubmit);
+                () => props.navigation.navigate('SearchActivity')
+              }
+            />
           </View>
         </KeyboardAvoidingView>
       </ScrollView>

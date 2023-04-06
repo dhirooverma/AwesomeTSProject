@@ -12,7 +12,8 @@ import InputText from '../components/InputText/index';
 import Label from '../components/Label/index';
 import SelectBox from '../components/SelectBox/index';
 import {getActivityFormData} from '../controller/activityData';
-import {SELECTBOX_DEFAULT_LABEL} from '../utils/constants';
+import {SELECTBOX_DEFAULT_LABEL, TABLE_DATA} from '../utils/constants';
+import ActivityTable from '../components/ActivityTable/index';
 
 const SearchActivity = props => {
   const [formData, setFormData] = useState({});
@@ -34,7 +35,7 @@ const SearchActivity = props => {
   console.log(formData?.classValue);
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       <ScrollView style={styles.container}>
         <KeyboardAvoidingView
           enabled
@@ -155,8 +156,9 @@ const SearchActivity = props => {
               );
             }}
           />
-          <View style={{marginBottom: 150}}></View>
+          <View style={{marginBottom: 50}}></View>
         </KeyboardAvoidingView>
+        <ActivityTable data={TABLE_DATA} />
       </ScrollView>
       {isLoading && (
         <View style={styles.indicatorContainer}>

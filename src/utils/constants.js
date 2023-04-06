@@ -57,6 +57,23 @@ const MASTERS_EE = {
   },
 };
 
+const TABLE_DATA = [
+  {
+    activity: 'Drawing Trees',
+    activity_description: 'Drawing trees with crayons and filling colors',
+  },
+  {
+    activity: 'identifying objects',
+    activity_description: 'identifying objects',
+  },
+  {
+    activity:
+      'identifying objects long data long data long data long data long data long data long data long data long data long data long data long data long data long data long data long data long data long data ',
+    activity_description:
+      'identifying objects long data long data long data long data long data long data long data long data long data long data long data long data long data long data long data long data long data long data',
+  },
+];
+
 const delay = () => {
   return new Promise((reslove, reject) => {
     setTimeout(() => {
@@ -67,4 +84,4 @@ const delay = () => {
 
 const SELECTBOX_DEFAULT_LABEL = 'Please Select';
 
-export {MASTERS_EE, SELECTBOX_DEFAULT_LABEL, delay};
+export {MASTERS_EE, SELECTBOX_DEFAULT_LABEL, delay, TABLE_DATA};

@@ -50,7 +50,7 @@ const SelectBox = props => {
           props.onValueChange(itemValue, itemIndex);
         }}
         enabled={!props.disabled}>
-        {renderOptions()}
+        {renderOptions(props.data)}
       </Picker>
     );
   }, [selectedValue, props, renderOptions]);
