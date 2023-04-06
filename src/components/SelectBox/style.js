@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
     elevation: 5,
     backgroundColor: colors.WHITE,
     borderWidth: 1,
-    borderColor: colors.LIGHT_BLUE,
   },
   selectBoxText: {
     color: colors.BLACK,

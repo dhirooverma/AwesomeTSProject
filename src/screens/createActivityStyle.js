@@ -4,17 +4,20 @@ export default StyleSheet.create({
   flex: {
     flex: 1,
   },
-  componentContainer: {
-    flex: 1,
-    backgroundColor: '#dddff',
-  },
   container: {
-    padding: 15,
-    backgroundColor: '#FFF',
+    paddingHorizontal: '10%',
+    paddingTop: '5%',
+    backgroundColor: '#fff',
   },
-  noteCharacterCounterContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
+  indicatorContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    width: '100%',
   },
 });

@@ -11,10 +11,26 @@ import {
 import styles from './style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from '../../utils/color';
+import {SELECTBOX_DEFAULT_LABEL} from '../../utils/constants';
 
 const SelectBox = props => {
   const [selectedValue, setSelectedValue] = useState(props.preSelected);
   const [isVisible, setVisible] = useState(false);
+
+  const renderOptions = useCallback(data => {
+    const options = [
+      <Picker.Item
+        label={SELECTBOX_DEFAULT_LABEL}
+        value={SELECTBOX_DEFAULT_LABEL}
+      />,
+    ];
+    if (data && Array.isArray(data)) {
+      data.forEach(option => {
+        options.push(<Picker.Item label={option.name} value={option.value} />);
+      });
+    }
+    return options;
+  }, []);
 
   const androidView = useMemo(() => {
     return (
@@ -23,6 +39,7 @@ const SelectBox = props => {
         // eslint-disable-next-line react-native/no-inline-styles
         style={{
           ...styles.selectBox,
+          borderColor: props.error ? 'red' : colors.LIGHT_BLUE,
           backgroundColor: props.disabled
             ? 'rgba(256,256,256,0.1)'
             : colors.WHITE,
@@ -33,10 +50,10 @@ const SelectBox = props => {
           props.onValueChange(itemValue, itemIndex);
         }}
         enabled={!props.disabled}>
-        {props.children}
+        {renderOptions()}
       </Picker>
     );
-  }, [selectedValue, props]);
+  }, [selectedValue, props, renderOptions]);
 
   const openModal = useCallback(() => {
     if (!props.disabled) {
@@ -55,6 +72,7 @@ const SelectBox = props => {
           // eslint-disable-next-line react-native/no-inline-styles
           style={{
             ...styles.selectBox,
+            borderColor: props.error ? 'red' : colors.LIGHT_BLUE,
             backgroundColor: props.disabled
               ? 'rgba(256,256,256,0.1)'
               : colors.WHITE,
@@ -79,12 +97,7 @@ const SelectBox = props => {
           animationType="slide"
           transparent={true}
           visible={isVisible}
-          style={styles.modalView}
-          // onDismiss={() => { setSelectedValue(itemValue) }}
-          // onOrientationChange={(evnt) => {
-          //     console.log(evnt);
-          // }}
-        >
+          style={styles.modalView}>
           <TouchableWithoutFeedback onPress={closeModal}>
             <View style={styles.modalContainerStyle}>
               <TouchableWithoutFeedback onPress={e => e.preventDefault()}>
@@ -97,7 +110,7 @@ const SelectBox = props => {
                       setSelectedValue(itemValue);
                       props.onValueChange(itemValue, itemIndex);
                     }}>
-                    {props.children}
+                    {renderOptions(props.data)}
                   </Picker>
                 </View>
               </TouchableWithoutFeedback>
@@ -106,8 +119,15 @@ const SelectBox = props => {
         </Modal>
       </>
     );
-  }, [isVisible, selectedValue, openModal, props]);
-  return Platform.OS === 'android' ? androidView : iosView;
+  }, [isVisible, selectedValue, openModal, props, renderOptions]);
+  return (
+    <View>
+      {Platform.OS === 'android' ? androidView : iosView}
+      {props.errorMessage && (
+        <Text style={{color: 'red'}}>{props.errorMessage}</Text>
+      )}
+    </View>
+  );
 };
 
 export default SelectBox;

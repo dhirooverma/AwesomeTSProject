@@ -6,32 +6,15 @@
  */
 
 import React from 'react';
-import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
-
-import CreateActivity from './src/screens/CreateActivity';
+import {NavigationContainer} from '@react-navigation/native';
+import RootNavigator from './src/navigation/rootNavigator';
 
 function App() {
   return (
-    <SafeAreaView style={{backgroundColor: '#4A87A9'}}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerTitle}>Create Activity</Text>
-      </View>
-      <CreateActivity />
-    </SafeAreaView>
+    <NavigationContainer>
+      <RootNavigator />
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    padding: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#4A87A9',
-  },
-  headerTitle: {
-    fontSize: 20,
-    color: '#fff',
-  },
-});
 
 export default App;
