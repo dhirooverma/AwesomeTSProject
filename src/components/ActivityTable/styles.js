@@ -18,6 +18,7 @@ export default StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     alignSelf: 'center',
+    color: Color.WHITE,
   },
   bodyText: {
     fontSize: 17,

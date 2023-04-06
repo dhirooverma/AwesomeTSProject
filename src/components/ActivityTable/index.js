@@ -7,7 +7,7 @@ import color from '../../utils/color';
 const ActivityTable = props => {
   return (
     <View style={{borderWidth: 1}}>
-      <View style={{flexDirection: 'row', backgroundColor: '#ccc'}}>
+      <View style={{flexDirection: 'row', backgroundColor: color.PRIMARY_BLUE}}>
         <View style={styles.cellStyle1}>
           <Text style={styles.headerText}>Activity</Text>
         </View>
@@ -28,7 +28,6 @@ const ActivityTable = props => {
             style={{
               flexDirection: 'row',
               borderTopWidth: 0.5,
-              backgroundColor: '#eee',
             }}>
             <View style={styles.cellStyle1}>
               <Text style={styles.bodyText}>{data.activity}</Text>
