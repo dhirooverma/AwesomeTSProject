@@ -339,8 +339,8 @@ const CreateActivity = props => {
             <Button
               title={'Submit'}
               onPress={
-                // handleSubmit(onSubmit);
-                () => props.navigation.navigate('SearchActivity')
+                handleSubmit(onSubmit)
+                // () => props.navigation.navigate('SearchActivity')
               }
             />
           </View>
