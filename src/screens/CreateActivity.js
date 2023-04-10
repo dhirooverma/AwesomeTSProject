@@ -7,6 +7,7 @@ import {
   ScrollView,
   View,
   Text,
+  Dimensions,
 } from 'react-native';
 import styles from './createActivityStyle';
 import InputText from '../components/InputText/index';
@@ -26,6 +27,7 @@ const CreateActivity = props => {
     mode: 'onChange',
     reValidateMode: 'onChange',
   });
+  const windowDimensions = Dimensions.get('window').width;
 
   const onSubmit = async () => {
     setLoading(true);
@@ -322,33 +324,36 @@ const CreateActivity = props => {
               field: {onChange, value},
               formState: {isSubmitted, errors},
             }) => (
-              <View pointerEvents={goalOptions.length > 0 ? 'auto' : 'none'}>
-                <Multiselect
-                  disabled={true}
-                  items={goalOptions}
-                  uniqueKey="name"
-                  selectText="Select Goals"
-                  displayKey="name"
-                  onSelectedItemsChange={selectedItem => {
-                    console.log(selectedItem);
-                    onChange(selectedItem);
-                  }}
-                  selectedItems={value}
-                  styleMainWrapper={styles.multiSelectContainer}
-                  styleTextDropdownSelected={styles.dropDownTextStyle}
-                  styleTextDropdown={styles.dropDownTextStyle}
-                  styleIndicator={styles.indicatorStyle}
-                  styleDropdownMenuSubsection={
-                    styles.styleDropdownMenuSubsection
-                  }
-                  searchInputStyle={styles.searchInput}
-                />
-                {isSubmitted && errors?.select_scale?.message && (
-                  <Text style={{color: 'red'}}>
-                    {errors?.select_scale?.message}
-                  </Text>
-                )}
-              </View>
+              <ScrollView horizontal={true} style={{width: '100%'}}>
+                <View
+                  style={{width: windowDimensions - 100}}
+                  pointerEvents={goalOptions.length > 0 ? 'auto' : 'none'}>
+                  <Multiselect
+                    disabled={true}
+                    items={goalOptions}
+                    uniqueKey="name"
+                    selectText="Select Goals"
+                    displayKey="name"
+                    onSelectedItemsChange={selectedItem => {
+                      console.log(selectedItem);
+                      onChange(selectedItem);
+                    }}
+                    selectedItems={value}
+                    styleMainWrapper={styles.multiSelectContainer}
+                    styleTextDropdownSelected={styles.dropDownTextStyle}
+                    styleTextDropdown={styles.dropDownTextStyle}
+                    styleDropdownMenuSubsection={
+                      styles.styleDropdownMenuSubsection
+                    }
+                    searchInputStyle={styles.searchInput}
+                  />
+                  {isSubmitted && errors?.select_scale?.message && (
+                    <Text style={{color: 'red'}}>
+                      {errors?.select_scale?.message}
+                    </Text>
+                  )}
+                </View>
+              </ScrollView>
             )}
           />
           <Label title={'Add Attachment'} />
