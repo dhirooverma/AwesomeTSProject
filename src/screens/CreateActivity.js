@@ -6,6 +6,7 @@ import {
   Platform,
   ScrollView,
   View,
+  Text,
 } from 'react-native';
 import styles from './createActivityStyle';
 import InputText from '../components/InputText/index';
@@ -19,7 +20,8 @@ import {SELECTBOX_DEFAULT_LABEL, delay} from '../utils/constants';
 const CreateActivity = props => {
   const [formData, setFormData] = useState({});
   const [isLoading, setLoading] = useState(false);
-  const {control, handleSubmit, getValues} = useForm({
+  const [goalOptions, setGoalOptions] = useState([]);
+  const {control, handleSubmit, getValues, setValue} = useForm({
     defaultValues: {},
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -34,11 +36,6 @@ const CreateActivity = props => {
     props.navigation.navigate('SearchActivity');
   };
 
-  const options = [
-    {name: 'option1', id: 1},
-    {name: 'option2', id: 2},
-  ];
-
   useEffect(() => {
     setLoading(true);
     getActivityFormData().then(data => {
@@ -46,8 +43,6 @@ const CreateActivity = props => {
       setLoading(false);
     });
   }, []);
-
-  console.log(formData?.classValue);
 
   return (
     <View>
@@ -67,7 +62,7 @@ const CreateActivity = props => {
               validate: value =>
                 value === SELECTBOX_DEFAULT_LABEL
                   ? 'Please select a valid option'
-                  : null,
+                  : undefined,
             }}
             render={({
               field: {onChange, value},
@@ -96,7 +91,7 @@ const CreateActivity = props => {
               validate: value =>
                 value === SELECTBOX_DEFAULT_LABEL
                   ? 'Please select a valid option'
-                  : null,
+                  : undefined,
             }}
             render={({
               field: {onChange, value},
@@ -124,7 +119,7 @@ const CreateActivity = props => {
               validate: value =>
                 value === SELECTBOX_DEFAULT_LABEL
                   ? 'Please select a valid option'
-                  : null,
+                  : undefined,
             }}
             name="type"
             render={({
@@ -150,7 +145,9 @@ const CreateActivity = props => {
                 message: 'Title is required!',
               },
               validate: value =>
-                value.length > 100 ? 'Length should be less than 100' : null,
+                value.length > 100
+                  ? 'Length should be less than 100'
+                  : undefined,
             }}
             name="title"
             render={({
@@ -252,7 +249,9 @@ const CreateActivity = props => {
                 message: 'Keywords are required!',
               },
               validate: value =>
-                value.length > 100 ? 'Length should be less than 100' : null,
+                value.length > 100
+                  ? 'Length should be less than 100'
+                  : undefined,
             }}
             name="keywords"
             render={({
@@ -285,7 +284,7 @@ const CreateActivity = props => {
               validate: value =>
                 value === SELECTBOX_DEFAULT_LABEL
                   ? 'Please select a valid option'
-                  : null,
+                  : undefined,
             }}
             render={({
               field: {onChange, value},
@@ -298,25 +297,58 @@ const CreateActivity = props => {
                 errorMessage={isSubmitted && errors?.select_scale?.message}
                 error={errors?.select_scale?.message && isSubmitted}
                 preSelected={value ?? SELECTBOX_DEFAULT_LABEL}
-                onValueChange={onChange}
+                onValueChange={option => {
+                  onChange(option);
+                  setValue('select_goals', undefined);
+                  setGoalOptions(formData?.goals?.[option] ?? []);
+                }}
               />
             )}
           />
           <Label title={'Select Goals'} />
           <Controller
-            disabled={getValues('select_scale') === SELECTBOX_DEFAULT_LABEL}
+            disabled={true}
             control={control}
-            name="select_scale"
-            render={({field: {onChange, value}}) => (
-              <Multiselect
-                disabled={getValues('select_scale') === SELECTBOX_DEFAULT_LABEL}
-                items={options}
-                uniqueKey="id"
-                onChangeInput={text => console.log(text)}
-                selectText="Pick Items"
-                displayKey="name"
-                onSelectedItemsChange={() => {}}
-              />
+            name="select_goals"
+            rules={
+              {
+                // required: {
+                //   value: true,
+                //   message: 'Goals are required',
+                // },
+              }
+            }
+            render={({
+              field: {onChange, value},
+              formState: {isSubmitted, errors},
+            }) => (
+              <View pointerEvents={goalOptions.length > 0 ? 'auto' : 'none'}>
+                <Multiselect
+                  disabled={true}
+                  items={goalOptions}
+                  uniqueKey="name"
+                  selectText="Select Goals"
+                  displayKey="name"
+                  onSelectedItemsChange={selectedItem => {
+                    console.log(selectedItem);
+                    onChange(selectedItem);
+                  }}
+                  selectedItems={value}
+                  styleMainWrapper={styles.multiSelectContainer}
+                  styleTextDropdownSelected={styles.dropDownTextStyle}
+                  styleTextDropdown={styles.dropDownTextStyle}
+                  styleIndicator={styles.indicatorStyle}
+                  styleDropdownMenuSubsection={
+                    styles.styleDropdownMenuSubsection
+                  }
+                  searchInputStyle={styles.searchInput}
+                />
+                {isSubmitted && errors?.select_scale?.message && (
+                  <Text style={{color: 'red'}}>
+                    {errors?.select_scale?.message}
+                  </Text>
+                )}
+              </View>
             )}
           />
           <Label title={'Add Attachment'} />

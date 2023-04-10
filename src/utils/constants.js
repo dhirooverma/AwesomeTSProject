@@ -27,7 +27,7 @@ const MASTERS_EE = {
     {name: '3-5 years: LCG Literacy', value: '3-5 years: LCG Literacy'},
   ],
 
-  gaols: {
+  goals: {
     '3-5 years: LCG early Math': [
       {
         name: 'Attempts to learn Objects',
@@ -47,7 +47,7 @@ const MASTERS_EE = {
         value: 'Talks about characteristics of living things',
       },
     ],
-    '-5 years: LCG Language': [
+    '3-5 years: LCG Language': [
       {
         name: 'Distinguishes plants from anilmals',
 

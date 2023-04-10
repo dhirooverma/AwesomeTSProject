@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import colors from '../utils/color';
 
 export default StyleSheet.create({
   flex: {
@@ -20,4 +21,15 @@ export default StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.4)',
     width: '100%',
   },
+  multiSelectContainer: {
+    borderColor: colors.LIGHT_BLUE,
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingLeft: 10,
+    paddingBottom: 10,
+  },
+  dropDownTextStyle: {fontSize: 16, marginTop: 5},
+  indicatorStyle: {color: colors.BLACK},
+  searchInput: {color: '#000', fontSize: 16, padding: 15},
+  styleDropdownMenuSubsection: {borderBottomWidth: 0},
 });
