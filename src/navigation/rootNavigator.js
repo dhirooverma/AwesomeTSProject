@@ -2,6 +2,7 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import CreateActivity from '../screens/CreateActivity';
 import SearchActivity from '../screens/SerachActivity';
+import ViewEditActivity from '../screens/ViewEditActivity';
 // import Ionicons from 'react-native-vector-icons/Ionicons';
 // import {TouchableOpacity} from 'react-native';
 
@@ -41,6 +42,15 @@ const RootNavigator = () => {
           }}
           name="SearchActivity"
           component={SearchActivity}
+        />
+
+        <StackNavigator.Screen
+          options={{
+            title: 'Create Activity',
+            headerTitleStyle: {color: '#fff', fontSize: 20},
+          }}
+          name="ViewEditActivity"
+          component={ViewEditActivity}
         />
       </StackNavigator.Group>
     </StackNavigator.Navigator>
