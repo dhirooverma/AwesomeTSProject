@@ -14,6 +14,7 @@ import SelectBox from '../components/SelectBox/index';
 import {getActivityFormData} from '../controller/activityData';
 import {SELECTBOX_DEFAULT_LABEL, TABLE_DATA} from '../utils/constants';
 import ActivityTable from '../components/ActivityTable/index';
+import AlertBox from '../components/AlertBox';
 
 const SearchActivity = props => {
   const [formData, setFormData] = useState({});
@@ -31,6 +32,36 @@ const SearchActivity = props => {
       setLoading(false);
     });
   }, []);
+
+  const editActivity =(data)=>{
+    props.navigation.navigate('ViewEditActivity', {data, view:true});
+  }
+
+  const [alertVisible, setAlertVisible] = useState(false);
+
+  const handlePress = (title) => {
+    setAlertVisible(true);
+    
+  };
+  const handlePressOK = () => {
+    // Handle OK button press
+    console.log("okay pressed")
+        setAlertVisible(false);
+
+  };
+
+  const handlePressCancel = () => {
+    // Handle Cancel button press
+    console.log("cancel pressed")
+
+        setAlertVisible(false);
+
+  };
+
+  const ViewActivity = data => {
+    props.navigation.navigate('ViewEditActivity', {data, view:false});
+  };
+
 
   console.log(formData?.classValue);
 
@@ -158,7 +189,19 @@ const SearchActivity = props => {
           />
           <View style={{marginBottom: 50}}></View>
         </KeyboardAvoidingView>
-        <ActivityTable data={TABLE_DATA} />
+        <ActivityTable
+          data={TABLE_DATA}
+          editActivity={editActivity}
+          deleteActivity={handlePress}
+          ViewActivity={ViewActivity}
+        />
+        <AlertBox
+          title="Are you sure you want to delete this item?"
+          message="Delete Item"
+          visible={alertVisible}
+          onPressOK={handlePressOK}
+          onPressCancel={handlePressCancel}
+        />
       </ScrollView>
       {isLoading && (
         <View style={styles.indicatorContainer}>

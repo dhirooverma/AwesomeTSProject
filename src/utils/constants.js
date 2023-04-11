@@ -49,28 +49,88 @@ const MASTERS_EE = {
     ],
     '3-5 years: LCG Language': [
       {
-        name: 'Distinguishes plants from anilmals',
+        name: 'Distinguishes plants from animals',
 
-        value: 'Distinguishes plants from anilmals',
+        value: 'Distinguishes plants from animals',
       },
     ],
   },
-};
+}
 
 const TABLE_DATA = [
   {
-    activity: 'Drawing Trees',
-    activity_description: 'Drawing trees with crayons and filling colors',
+    id: 1,
+    class: 'Kyaminipa',
+    planLibrary: 'Halle Berry - Activities',
+    type: 'Enhancement',
+    title: 'Drawing Trees',
+    preparation: 'need brush and color',
+    keyword: 'paint',
+    notes: 'database',
+    facilitating:
+      'schools were located in the same campus to facilitate the sharing of resources',
+    description: 'Drawing trees with crayons and filling colors',
+    scale: '3-5 years: LCG early Math',
+    goals: 'Attempts to learn Objects',
+    attachment: 'file',
   },
+
   {
-    activity: 'identifying objects',
-    activity_description: 'identifying objects',
+    id: 1,
+
+    class: 'Early Preschool 1',
+
+    planLibrary: 'Halle Berry - Activities',
+
+    type: 'focus',
+
+    title: 'drawing mountains',
+
+    preparation: 'need colors',
+
+    keyword: 'paint, mountain',
+
+    notes: '50',
+
+    facilitating:
+      'schools were located in the same campus to facilitate the sharing of resources',
+
+    description: 'Drawing trees with crayons and filling colors',
+
+    scale: '3-5 years: LCG early Math',
+
+    goals: 'Draws/Talks about aspects of Earth( eg soil, trees)',
+
+    attachment: 'file',
   },
+
   {
-    activity:
-      'identifying objects long data long data long data long data long data long data long data long data long data long data long data long data long data long data long data long data long data long data ',
-    activity_description:
-      'identifying objects long data long data long data long data long data long data long data long data long data long data long data long data long data long data long data long data long data long data',
+    id: 1,
+
+    class: 'Early Preschool 2',
+
+    planLibrary: 'Halle Berry - Activities',
+
+    type: 'Small Group',
+
+    title: 'reading Alphabets',
+
+    preparation: 'need brush and color',
+
+    keyword: 'paint',
+
+    notes: 'database',
+
+    facilitating:
+      'schools were located in the same campus to facilitate the sharing of resources',
+
+    description: 'Drawing trees with crayons and filling colors',
+
+    scale: '3-5 years: LCG Language',
+
+    goals: undefined,
+
+    attachment: 'file',
   },
 ];
 

@@ -6,7 +6,6 @@ import {
   Platform,
   ScrollView,
   View,
-  Text,
   Dimensions,
 } from 'react-native';
 import styles from './createActivityStyle';
@@ -18,7 +17,7 @@ import Multiselect from 'react-native-multiple-select';
 import {getActivityFormData} from '../controller/activityData';
 import {SELECTBOX_DEFAULT_LABEL, delay} from '../utils/constants';
 
-const CreateActivity = props => {
+const ViewEditActivity = props => {
   const [formData, setFormData] = useState({});
   const [isLoading, setLoading] = useState(false);
   const [goalOptions, setGoalOptions] = useState([]);
@@ -28,6 +27,7 @@ const CreateActivity = props => {
     reValidateMode: 'onChange',
   });
   const windowDimensions = Dimensions.get('window').width;
+
 
   const onSubmit = async () => {
     setLoading(true);
@@ -46,9 +46,14 @@ const CreateActivity = props => {
     });
   }, []);
 
+    const tableData = props?.route?.params?.data;
+  const goals=   tableData.goals==undefined ?[]:  tableData.goals.split(',');
+    console.log(goals)
+    console.log(tableData.goals);
+
   return (
     <View>
-      <ScrollView  style={styles.container}>
+      <ScrollView style={styles.container}>
         <KeyboardAvoidingView
           enabled
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -64,8 +69,9 @@ const CreateActivity = props => {
               validate: value =>
                 value === SELECTBOX_DEFAULT_LABEL
                   ? 'Please select a valid option'
-                  : undefined,
+                  : null,
             }}
+            defaultValue={tableData.class}
             render={({
               field: {onChange, value},
               formState: {isSubmitted, errors},
@@ -74,10 +80,14 @@ const CreateActivity = props => {
                 data={formData?.classValue}
                 placeholder={'select'}
                 errorMessage={isSubmitted && errors?.class?.message}
+                // editable={props?.route?.params?.view}
+                disabled={props?.route?.params?.view == false ? true : false}
                 error={errors?.class?.message && isSubmitted}
                 id={'class'}
-                preSelected={value ?? SELECTBOX_DEFAULT_LABEL}
-                onValueChange={onChange}
+                preSelected={tableData.class}
+                onValueChange={value => {
+                  onChange(value);
+                }}
               />
             )}
           />
@@ -93,8 +103,9 @@ const CreateActivity = props => {
               validate: value =>
                 value === SELECTBOX_DEFAULT_LABEL
                   ? 'Please select a valid option'
-                  : undefined,
+                  : null,
             }}
+            defaultValue={tableData.planLibrary}
             render={({
               field: {onChange, value},
               formState: {isSubmitted, errors},
@@ -103,9 +114,9 @@ const CreateActivity = props => {
                 data={formData?.planLibrary}
                 errorMessage={isSubmitted && errors?.library?.message}
                 error={errors?.library?.message && isSubmitted}
-                disabled={false}
+                disabled={props?.route?.params?.view == false ? true : false}
                 id={'library'}
-                preSelected={value ?? SELECTBOX_DEFAULT_LABEL}
+                preSelected={value ?? tableData?.planLibrary}
                 onValueChange={onChange}
               />
             )}
@@ -121,8 +132,9 @@ const CreateActivity = props => {
               validate: value =>
                 value === SELECTBOX_DEFAULT_LABEL
                   ? 'Please select a valid option'
-                  : undefined,
+                  : null,
             }}
+            defaultValue={tableData.type}
             name="type"
             render={({
               field: {onChange, value},
@@ -132,8 +144,9 @@ const CreateActivity = props => {
                 data={formData?.type}
                 errorMessage={isSubmitted && errors?.type?.message}
                 error={errors?.type?.message && isSubmitted}
+                disabled={props?.route?.params?.view == false ? true : false}
                 id={'type'}
-                preSelected={value ?? SELECTBOX_DEFAULT_LABEL}
+                preSelected={value ?? tableData.type}
                 onValueChange={onChange}
               />
             )}
@@ -147,11 +160,10 @@ const CreateActivity = props => {
                 message: 'Title is required!',
               },
               validate: value =>
-                value.length > 100
-                  ? 'Length should be less than 100'
-                  : undefined,
+                value.length > 100 ? 'Length should be less than 100' : null,
             }}
             name="title"
+            defaultValue={tableData.title}
             render={({
               field: {onChange, value},
               formState: {isValid, isSubmitted, errors},
@@ -162,9 +174,11 @@ const CreateActivity = props => {
                   error={errors?.title?.message && isSubmitted}
                   maxLength={100}
                   value={value}
-                  editable
-                  onChangeText={text => {
-                    onChange(text);
+                  editable={props?.route?.params?.view}
+                  // selectTextOnFocus={false}
+                  onChangeText={value => {
+                    onChange(value);
+                    // console.log(getValues('title'));
                   }}
                 />
               );
@@ -176,13 +190,14 @@ const CreateActivity = props => {
           <Label title={'Preparation'} />
           <Controller
             control={control}
+            defaultValue={tableData.preparation}
             name="preparation"
             render={({field: {onChange, value}}) => {
               return (
                 <InputText
                   maxLength={2000}
                   value={value}
-                  editable
+                  editable={props?.route?.params?.view}
                   multiline
                   onChangeText={text => {
                     onChange(text);
@@ -195,13 +210,14 @@ const CreateActivity = props => {
           <Controller
             control={control}
             name="notes"
+            defaultValue={tableData.notes}
             render={({field: {onChange, value}}) => (
               <InputText
                 value={value}
                 multiline
                 maxLength={2000}
                 style={styles.notesTextInput}
-                editable
+                editable={props?.route?.params?.view}
                 onChangeText={text => {
                   onChange(text);
                 }}
@@ -212,13 +228,14 @@ const CreateActivity = props => {
           <Controller
             control={control}
             name="facilitating"
+            defaultValue={tableData.facilitating}
             render={({field: {onChange, value}}) => (
               <InputText
                 value={value}
                 multiline
                 maxLength={2000}
                 style={styles.notesTextInput}
-                editable
+                editable={props?.route?.params?.view}
                 onChangeText={text => {
                   onChange(text);
                 }}
@@ -229,13 +246,14 @@ const CreateActivity = props => {
           <Controller
             control={control}
             name="description"
+            defaultValue={tableData.description}
             render={({field: {onChange, value}}) => (
               <InputText
                 value={value}
                 multiline
                 maxLength={2000}
                 style={styles.notesTextInput}
-                editable
+                editable={props?.route?.params?.view}
                 onChangeText={text => {
                   onChange(text);
                 }}
@@ -245,15 +263,14 @@ const CreateActivity = props => {
           <Label title={'Keywords'} />
           <Controller
             control={control}
+            defaultValue={tableData.keyword}
             rules={{
               required: {
                 value: true,
                 message: 'Keywords are required!',
               },
               validate: value =>
-                value.length > 100
-                  ? 'Length should be less than 100'
-                  : undefined,
+                value.length > 100 ? 'Length should be less than 100' : null,
             }}
             name="keywords"
             render={({
@@ -266,7 +283,7 @@ const CreateActivity = props => {
                   error={errors?.keywords?.message && isSubmitted}
                   maxLength={100}
                   value={value}
-                  editable
+                  editable={props?.route?.params?.view}
                   onChangeText={text => {
                     onChange(text);
                   }}
@@ -288,18 +305,19 @@ const CreateActivity = props => {
                   ? 'Please select a valid option'
                   : undefined,
             }}
+            defaultValue={tableData.scale}
             render={({
               field: {onChange, value},
               formState: {isSubmitted, errors},
             }) => (
               <SelectBox
                 data={formData?.scales}
-                disabled={false}
+                disabled={props?.route?.params?.view == false ? true : false}
                 id={'select_scale'}
                 uniqueKey="value"
                 errorMessage={isSubmitted && errors?.select_scale?.message}
                 error={errors?.select_scale?.message && isSubmitted}
-                preSelected={value ?? SELECTBOX_DEFAULT_LABEL}
+                preSelected={value ?? tableData.scale}
                 onValueChange={option => {
                   onChange(option);
                   setValue('select_goals', undefined);
@@ -310,7 +328,8 @@ const CreateActivity = props => {
           />
           <Label title={'Select Goals'} />
           <Controller
-            disabled={true}
+            // disabled={true}
+            defaultValue={goals}
             control={control}
             name="select_goals"
             rules={
@@ -330,7 +349,9 @@ const CreateActivity = props => {
                   style={{width: windowDimensions - 100}}
                   pointerEvents={goalOptions.length > 0 ? 'auto' : 'none'}>
                   <Multiselect
-                    disabled={true}
+                    // disabled={
+                    //   props?.route?.params?.view == false ? true : false
+                    // }
                     items={goalOptions}
                     uniqueKey="name"
                     selectText="Select Goals"
@@ -361,12 +382,13 @@ const CreateActivity = props => {
           <Controller
             control={control}
             name="attachment"
+            defaultValue={tableData.attachment}
             render={({field: {onChange, value}}) => (
               <InputText
                 value={value}
                 maxLength={100}
                 style={styles.notesTextInput}
-                editable
+                editable={props?.route?.params?.view}
                 onChangeText={text => {
                   onChange(text);
                 }}
@@ -396,4 +418,4 @@ const CreateActivity = props => {
   );
 };
 
-export default CreateActivity;
+export default ViewEditActivity;

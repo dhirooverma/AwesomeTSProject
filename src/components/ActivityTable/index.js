@@ -1,10 +1,12 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import styles from './styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import color from '../../utils/color';
 
 const ActivityTable = props => {
+  console.log(props)
+  const {navigation} = props;
   return (
     <View style={{borderWidth: 1}}>
       <View style={{flexDirection: 'row', backgroundColor: color.PRIMARY_BLUE}}>
@@ -31,19 +33,20 @@ const ActivityTable = props => {
             }}>
             <View style={styles.cellStyle1}>
               <Text numberOfLines={1} style={styles.bodyText}>
-                {data.activity}
+                {data.title}
               </Text>
             </View>
             <View style={styles.cellStyle1}>
               <Text numberOfLines={1} style={styles.bodyText}>
-                {data.activity_description}
+                {data.description}
               </Text>
             </View>
             <View style={styles.cellStyle2}>
-              <TouchableOpacity
-                style={{flexDirection: 'row'}}
-                onPress={() => {}}>
+              <View style={{flexDirection: 'row'}}>
                 <Ionicons
+                  onPress={() => {
+                    props.editActivity(data);
+                  }}
                   name="create-outline"
                   size={30}
                   color={color.PRIMARY_BLUE}
@@ -52,11 +55,17 @@ const ActivityTable = props => {
                   name="eye-outline"
                   size={30}
                   color={color.PRIMARY_BLUE}
+                  onPress={() => {
+                    props.ViewActivity(data);
+                  }}
                 />
-              </TouchableOpacity>
+              </View>
             </View>
             <View style={styles.cellStyle2}>
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity
+                onPress={() => {
+                  props.deleteActivity(data.title);
+                }}>
                 <Ionicons
                   name="trash-outline"
                   size={30}
