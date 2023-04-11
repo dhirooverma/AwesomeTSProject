@@ -7,7 +7,8 @@ import {
   ScrollView,
   View,
   Dimensions,
-  Text,
+
+  Text
 } from 'react-native';
 import styles from './createActivityStyle';
 import InputText from '../components/InputText/index';
@@ -21,7 +22,7 @@ import {SELECTBOX_DEFAULT_LABEL, delay} from '../utils/constants';
 const ViewEditActivity = props => {
   const [formData, setFormData] = useState({});
   const [isLoading, setLoading] = useState(false);
-  const [goalOptions, setGoalOptions] = useState([]);
+  const [goalOptions, setGoalOptions] = useState([])
   const {control, handleSubmit, getValues, setValue} = useForm({
     defaultValues: {},
     mode: 'onChange',
@@ -47,6 +48,7 @@ const ViewEditActivity = props => {
   }, []);
 
   const tableData = props?.route?.params?.data;
+
   const goals = tableData.goals === undefined ? [] : tableData.goals.split(',');
 
   return (
@@ -326,8 +328,8 @@ const ViewEditActivity = props => {
           />
           <Label title={'Select Goals'} />
           <Controller
+          defaultValue={goals}
             // disabled={true}
-            defaultValue={goals}
             control={control}
             name="select_goals"
             rules={
@@ -347,9 +349,7 @@ const ViewEditActivity = props => {
                   style={{width: windowDimensions - 100}}
                   pointerEvents={goalOptions.length > 0 ? 'auto' : 'none'}>
                   <Multiselect
-                    // disabled={
-                    //   props?.route?.params?.view == false ? true : false
-                    // }
+                    // disabled={true}
                     items={goalOptions}
                     uniqueKey="name"
                     selectText="Select Goals"
@@ -376,6 +376,11 @@ const ViewEditActivity = props => {
               </ScrollView>
             )}
           />
+          <View>
+            <Text>
+              {goals}
+            </Text>
+          </View>
           <Label title={'Add Attachment'} />
           <Controller
             control={control}
@@ -394,13 +399,7 @@ const ViewEditActivity = props => {
             )}
           />
           <View style={{marginBottom: 150}}>
-            <Button
-              title={'Submit'}
-              onPress={
-                handleSubmit(onSubmit)
-                // () => props.navigation.navigate('SearchActivity')
-              }
-            />
+            <Button title={'Submit'} onPress={handleSubmit(onSubmit)} />
           </View>
         </KeyboardAvoidingView>
       </ScrollView>

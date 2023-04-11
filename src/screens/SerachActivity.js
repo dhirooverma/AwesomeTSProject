@@ -187,11 +187,13 @@ const SearchActivity = props => {
           ViewActivity={ViewActivity}
         />
         <AlertBox
-          title="Are you sure you want to delete this item?"
-          message="Delete Item"
+          title="Delete Item"
+          message="Are you sure you want to delete this item?"
           visible={alertVisible}
           onPressOK={handlePressOK}
           onPressCancel={handlePressCancel}
+          needCancelButton={true}
+          okayText="OKAY@"
         />
       </ScrollView>
       {isLoading && (
