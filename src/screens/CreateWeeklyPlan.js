@@ -14,9 +14,8 @@ import SelectBox from '../components/SelectBox/index';
 import {getActivityFormData} from '../controller/activityData';
 import {SELECTBOX_DEFAULT_LABEL, TABLE_DATA} from '../utils/constants';
 import ActivityTable from '../components/ActivityTable/index';
-import AlertBox from '../components/AlertBox';
 
-const SearchActivity = props => {
+const CreateWeeklyPlan = props => {
   const [formData, setFormData] = useState({});
   const [isLoading, setLoading] = useState(false);
   const {control, handleSubmit, getValues} = useForm({
@@ -33,27 +32,6 @@ const SearchActivity = props => {
     });
   }, []);
 
-  const editActivity = data => {
-    props.navigation.navigate('ViewEditActivity', {data, view: true});
-  };
-
-  const [alertVisible, setAlertVisible] = useState(false);
-
-  const handlePress = title => {
-    setAlertVisible(true);
-  };
-  const handlePressOK = () => {
-    setAlertVisible(false);
-  };
-
-  const handlePressCancel = () => {
-    setAlertVisible(false);
-  };
-
-  const ViewActivity = data => {
-    props.navigation.navigate('ViewEditActivity', {data, view: false});
-  };
-
   console.log(formData?.classValue);
 
   return (
@@ -62,14 +40,14 @@ const SearchActivity = props => {
         <KeyboardAvoidingView
           enabled
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <Label title={'Select Class'} />
+          <Label title={'Select Weekly Plan Library'} />
           <Controller
             control={control}
-            name="class"
+            name="planLibrary"
             rules={{
               required: {
                 value: true,
-                message: 'Class is required!',
+                message: 'Weekly Plan Library is required!',
               },
               validate: value =>
                 value === SELECTBOX_DEFAULT_LABEL
@@ -81,93 +59,66 @@ const SearchActivity = props => {
               formState: {isSubmitted, errors},
             }) => (
               <SelectBox
-                data={formData?.classValue}
+                data={formData?.planLibraryValue}
                 placeholder={'select'}
-                errorMessage={isSubmitted && errors?.class?.message}
-                error={errors?.class?.message && isSubmitted}
+                errorMessage={isSubmitted && errors?.planLibrary?.message}
+                error={errors?.planLibrary?.message && isSubmitted}
                 id={'class'}
                 preSelected={value ?? SELECTBOX_DEFAULT_LABEL}
                 onValueChange={onChange}
               />
             )}
           />
-          <Label title={'Select Library'} />
-          <Controller
-            control={control}
-            name="library"
-            rules={{
-              required: {
-                value: true,
-                message: 'Library is required!',
-              },
-              validate: value =>
-                value === SELECTBOX_DEFAULT_LABEL
-                  ? 'Please select a valid option'
-                  : null,
-            }}
-            render={({
-              field: {onChange, value},
-              formState: {isSubmitted, errors},
-            }) => (
-              <SelectBox
-                data={formData?.planLibrary}
-                errorMessage={isSubmitted && errors?.library?.message}
-                error={errors?.library?.message && isSubmitted}
-                disabled={false}
-                id={'library'}
-                preSelected={value ?? SELECTBOX_DEFAULT_LABEL}
-                onValueChange={onChange}
-              />
-            )}
-          />
-          <Label title={'Select Type'} />
+          <Label title={'Plan Name'} />
           <Controller
             control={control}
             rules={{
               required: {
                 value: true,
-                message: 'Type is required!',
-              },
-              validate: value =>
-                value === SELECTBOX_DEFAULT_LABEL
-                  ? 'Please select a valid option'
-                  : null,
-            }}
-            name="type"
-            render={({
-              field: {onChange, value},
-              formState: {isSubmitted, errors},
-            }) => (
-              <SelectBox
-                data={formData?.type}
-                errorMessage={isSubmitted && errors?.type?.message}
-                error={errors?.type?.message && isSubmitted}
-                id={'type'}
-                preSelected={value ?? SELECTBOX_DEFAULT_LABEL}
-                onValueChange={onChange}
-              />
-            )}
-          />
-          <Label title={'Keywords'} />
-          <Controller
-            control={control}
-            rules={{
-              required: {
-                value: true,
-                message: 'Keywords are required!',
+                message: 'Plan name are required!',
               },
               validate: value =>
                 value.length > 100 ? 'Length should be less than 100' : null,
             }}
-            name="keywords"
+            name="plan"
             render={({
               field: {onChange, value},
               formState: {isSubmitted, errors},
             }) => {
               return (
                 <InputText
-                  errorMessage={isSubmitted && errors?.keywords?.message}
-                  error={errors?.keywords?.message && isSubmitted}
+                  errorMessage={isSubmitted && errors?.plan?.message}
+                  error={errors?.plan?.message && isSubmitted}
+                  maxLength={100}
+                  value={value}
+                  editable
+                  onChangeText={text => {
+                    onChange(text);
+                  }}
+                />
+              );
+            }}
+          />
+          <Label title={'Teacher Name'} />
+          <Controller
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'Teacher are required!',
+              },
+              validate: value =>
+                value.length > 100 ? 'Length should be less than 100' : null,
+            }}
+            name="teacher"
+            render={({
+              field: {onChange, value},
+              formState: {isSubmitted, errors},
+            }) => {
+              return (
+                <InputText
+                  errorMessage={isSubmitted && errors?.teacher?.message}
+                  error={errors?.teacher?.message && isSubmitted}
                   maxLength={100}
                   value={value}
                   editable
@@ -180,21 +131,7 @@ const SearchActivity = props => {
           />
           <View style={{marginBottom: 50}}></View>
         </KeyboardAvoidingView>
-        <ActivityTable
-          data={TABLE_DATA}
-          editActivity={editActivity}
-          deleteActivity={handlePress}
-          ViewActivity={ViewActivity}
-        />
-        <AlertBox
-          title="Delete Item"
-          message="Are you sure you want to delete this item?"
-          visible={alertVisible}
-          onPressOK={handlePressOK}
-          onPressCancel={handlePressCancel}
-          needCancelButton={true}
-          okayText="OKAY@"
-        />
+        {/* <ActivityTable data={TABLE_DATA} /> */}
       </ScrollView>
       {isLoading && (
         <View style={styles.indicatorContainer}>
@@ -208,4 +145,4 @@ const SearchActivity = props => {
   );
 };
 
-export default SearchActivity;
+export default CreateWeeklyPlan;
