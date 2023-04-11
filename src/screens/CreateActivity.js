@@ -8,6 +8,7 @@ import {
   View,
   Text,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 import styles from './createActivityStyle';
 import InputText from '../components/InputText/index';
@@ -17,6 +18,7 @@ import SelectBox from '../components/SelectBox/index';
 import Multiselect from 'react-native-multiple-select';
 import {getActivityFormData} from '../controller/activityData';
 import {SELECTBOX_DEFAULT_LABEL, delay} from '../utils/constants';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const CreateActivity = props => {
   const [formData, setFormData] = useState({});
@@ -28,6 +30,17 @@ const CreateActivity = props => {
     reValidateMode: 'onChange',
   });
   const windowDimensions = Dimensions.get('window').width;
+
+  useEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => props.navigation?.navigate('CreateWeeklyPlan')}>
+          <Ionicons name="calendar" size={30} color={'#fff'} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [props.navigation]);
 
   const onSubmit = async () => {
     setLoading(true);
@@ -48,7 +61,7 @@ const CreateActivity = props => {
 
   return (
     <View>
-      <ScrollView  style={styles.container}>
+      <ScrollView style={styles.container}>
         <KeyboardAvoidingView
           enabled
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

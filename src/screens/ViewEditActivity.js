@@ -7,6 +7,7 @@ import {
   ScrollView,
   View,
   Dimensions,
+  Text,
 } from 'react-native';
 import styles from './createActivityStyle';
 import InputText from '../components/InputText/index';
@@ -28,7 +29,6 @@ const ViewEditActivity = props => {
   });
   const windowDimensions = Dimensions.get('window').width;
 
-
   const onSubmit = async () => {
     setLoading(true);
     const formValues = getValues();
@@ -46,10 +46,8 @@ const ViewEditActivity = props => {
     });
   }, []);
 
-    const tableData = props?.route?.params?.data;
-  const goals=   tableData.goals==undefined ?[]:  tableData.goals.split(',');
-    console.log(goals)
-    console.log(tableData.goals);
+  const tableData = props?.route?.params?.data;
+  const goals = tableData.goals === undefined ? [] : tableData.goals.split(',');
 
   return (
     <View>
@@ -81,12 +79,12 @@ const ViewEditActivity = props => {
                 placeholder={'select'}
                 errorMessage={isSubmitted && errors?.class?.message}
                 // editable={props?.route?.params?.view}
-                disabled={props?.route?.params?.view == false ? true : false}
+                disabled={props?.route?.params?.view === false ? true : false}
                 error={errors?.class?.message && isSubmitted}
                 id={'class'}
                 preSelected={tableData.class}
-                onValueChange={value => {
-                  onChange(value);
+                onValueChange={option => {
+                  onChange(option);
                 }}
               />
             )}
@@ -176,8 +174,8 @@ const ViewEditActivity = props => {
                   value={value}
                   editable={props?.route?.params?.view}
                   // selectTextOnFocus={false}
-                  onChangeText={value => {
-                    onChange(value);
+                  onChangeText={option => {
+                    onChange(option);
                     // console.log(getValues('title'));
                   }}
                 />

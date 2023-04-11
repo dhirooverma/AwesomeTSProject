@@ -55,7 +55,7 @@ const MASTERS_EE = {
       },
     ],
   },
-}
+};
 
 const TABLE_DATA = [
   {

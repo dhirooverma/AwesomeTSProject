@@ -26,7 +26,7 @@ const SelectBox = props => {
     ];
     if (data && Array.isArray(data)) {
       data.forEach(option => {
-        options.push(<Picker.Item label={option.name} value={option.value} />);
+        options.push(<Picker.Item label={option.value} value={option.value} />);
       });
     }
     return options;
@@ -107,6 +107,7 @@ const SelectBox = props => {
                     {...props}
                     selectedValue={selectedValue}
                     onValueChange={(itemValue, itemIndex) => {
+                      console.log('item value', itemValue, itemIndex);
                       setSelectedValue(itemValue);
                       props.onValueChange(itemValue, itemIndex);
                     }}>

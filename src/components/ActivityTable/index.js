@@ -5,8 +5,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import color from '../../utils/color';
 
 const ActivityTable = props => {
-  console.log(props)
-  const {navigation} = props;
   return (
     <View style={{borderWidth: 1}}>
       <View style={{flexDirection: 'row', backgroundColor: color.PRIMARY_BLUE}}>
