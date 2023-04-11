@@ -6,6 +6,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   container: {
+    paddingHorizontal: '10%',
     paddingHorizontal: 50,
     paddingTop: '5%',
     backgroundColor: '#fff',
@@ -28,6 +29,7 @@ export default StyleSheet.create({
     paddingLeft: 10,
     paddingBottom: 10,
   },
+  indicatorStyle: {color: colors.BLACK},
   dropDownTextStyle: {fontSize: 16, marginTop: 5},
   searchInput: {color: '#000', fontSize: 16, padding: 15},
   styleDropdownMenuSubsection: {borderBottomWidth: 0},

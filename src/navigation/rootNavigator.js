@@ -28,20 +28,20 @@ const RootNavigator = () => {
         }}>
         <StackNavigator.Screen
           options={{
-            title: 'Create Activity',
-            headerTitleStyle: {color: '#fff', fontSize: 20},
-          }}
-          name="CreateActivity"
-          component={CreateActivity}
-        />
-        <StackNavigator.Screen
-          options={{
             headerBackTitleVisible: false,
             title: 'Search Activity',
             headerTitleStyle: {color: '#fff', fontSize: 30},
           }}
           name="SearchActivity"
           component={SearchActivity}
+        />
+        <StackNavigator.Screen
+          options={{
+            title: 'Create Activity',
+            headerTitleStyle: {color: '#fff', fontSize: 20},
+          }}
+          name="CreateActivity"
+          component={CreateActivity}
         />
 
         <StackNavigator.Screen

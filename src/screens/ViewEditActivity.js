@@ -6,6 +6,7 @@ import {
   Platform,
   ScrollView,
   View,
+  Dimensions,
 } from 'react-native';
 import styles from './createActivityStyle';
 import InputText from '../components/InputText/index';
@@ -25,6 +26,8 @@ const ViewEditActivity = props => {
     mode: 'onChange',
     reValidateMode: 'onChange',
   });
+  const windowDimensions = Dimensions.get('window').width;
+
 
   const onSubmit = async () => {
     setLoading(true);
@@ -44,7 +47,9 @@ const ViewEditActivity = props => {
   }, []);
 
     const tableData = props?.route?.params?.data;
-    
+  const goals=   tableData.goals==undefined ?[]:  tableData.goals.split(',');
+    console.log(goals)
+    console.log(tableData.goals);
 
   return (
     <View>
@@ -191,7 +196,7 @@ const ViewEditActivity = props => {
               return (
                 <InputText
                   maxLength={2000}
-                  value={tableData?.preparation}
+                  value={value}
                   editable={props?.route?.params?.view}
                   multiline
                   onChangeText={text => {
@@ -208,7 +213,7 @@ const ViewEditActivity = props => {
             defaultValue={tableData.notes}
             render={({field: {onChange, value}}) => (
               <InputText
-                value={tableData.notes}
+                value={value}
                 multiline
                 maxLength={2000}
                 style={styles.notesTextInput}
@@ -226,7 +231,7 @@ const ViewEditActivity = props => {
             defaultValue={tableData.facilitating}
             render={({field: {onChange, value}}) => (
               <InputText
-                value={tableData?.facilitating}
+                value={value}
                 multiline
                 maxLength={2000}
                 style={styles.notesTextInput}
@@ -244,7 +249,7 @@ const ViewEditActivity = props => {
             defaultValue={tableData.description}
             render={({field: {onChange, value}}) => (
               <InputText
-                value={tableData?.description}
+                value={value}
                 multiline
                 maxLength={2000}
                 style={styles.notesTextInput}
@@ -277,7 +282,7 @@ const ViewEditActivity = props => {
                   errorMessage={isSubmitted && errors?.keywords?.message}
                   error={errors?.keywords?.message && isSubmitted}
                   maxLength={100}
-                  value={tableData.keyword}
+                  value={value}
                   editable={props?.route?.params?.view}
                   onChangeText={text => {
                     onChange(text);
@@ -324,7 +329,7 @@ const ViewEditActivity = props => {
           <Label title={'Select Goals'} />
           <Controller
             // disabled={true}
-            defaultValue={tableData.goals}
+            defaultValue={goals}
             control={control}
             name="select_goals"
             rules={
@@ -339,34 +344,38 @@ const ViewEditActivity = props => {
               field: {onChange, value},
               formState: {isSubmitted, errors},
             }) => (
-              <View
-                pointerEvents={goalOptions.length > 0 ? 'auto' : 'none'}
-                disabled={props?.route?.params?.view == false ? true : false}>
-                <Multiselect
-                  items={goalOptions}
-                  uniqueKey="name"
-                  selectText="Select Goals"
-                  displayKey="name"
-                  onSelectedItemsChange={selectedItem => {
-                    console.log(selectedItem);
-                    onChange(selectedItem);
-                  }}
-                  selectedItems={[] }
-                  styleMainWrapper={styles.multiSelectContainer}
-                  styleTextDropdownSelected={styles.dropDownTextStyle}
-                  styleTextDropdown={styles.dropDownTextStyle}
-                  // styleIndicator={styles.indicatorStyle}
-                  styleDropdownMenuSubsection={
-                    styles.styleDropdownMenuSubsection
-                  }
-                  searchInputStyle={styles.searchInput}
-                />
-                {isSubmitted && errors?.select_scale?.message && (
-                  <Text style={{color: 'red'}}>
-                    {errors?.select_scale?.message}
-                  </Text>
-                )}
-              </View>
+              <ScrollView horizontal={true} style={{width: '100%'}}>
+                <View
+                  style={{width: windowDimensions - 100}}
+                  pointerEvents={goalOptions.length > 0 ? 'auto' : 'none'}>
+                  <Multiselect
+                    // disabled={
+                    //   props?.route?.params?.view == false ? true : false
+                    // }
+                    items={goalOptions}
+                    uniqueKey="name"
+                    selectText="Select Goals"
+                    displayKey="name"
+                    onSelectedItemsChange={selectedItem => {
+                      console.log(selectedItem);
+                      onChange(selectedItem);
+                    }}
+                    selectedItems={value}
+                    styleMainWrapper={styles.multiSelectContainer}
+                    styleTextDropdownSelected={styles.dropDownTextStyle}
+                    styleTextDropdown={styles.dropDownTextStyle}
+                    styleDropdownMenuSubsection={
+                      styles.styleDropdownMenuSubsection
+                    }
+                    searchInputStyle={styles.searchInput}
+                  />
+                  {isSubmitted && errors?.select_scale?.message && (
+                    <Text style={{color: 'red'}}>
+                      {errors?.select_scale?.message}
+                    </Text>
+                  )}
+                </View>
+              </ScrollView>
             )}
           />
           <Label title={'Add Attachment'} />
@@ -376,7 +385,7 @@ const ViewEditActivity = props => {
             defaultValue={tableData.attachment}
             render={({field: {onChange, value}}) => (
               <InputText
-                value={tableData.attachment}
+                value={value}
                 maxLength={100}
                 style={styles.notesTextInput}
                 editable={props?.route?.params?.view}

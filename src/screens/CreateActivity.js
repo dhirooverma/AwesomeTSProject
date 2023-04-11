@@ -48,7 +48,7 @@ const CreateActivity = props => {
 
   return (
     <View>
-      <ScrollView style={styles.container}>
+      <ScrollView  style={styles.container}>
         <KeyboardAvoidingView
           enabled
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -296,6 +296,7 @@ const CreateActivity = props => {
                 data={formData?.scales}
                 disabled={false}
                 id={'select_scale'}
+                uniqueKey="value"
                 errorMessage={isSubmitted && errors?.select_scale?.message}
                 error={errors?.select_scale?.message && isSubmitted}
                 preSelected={value ?? SELECTBOX_DEFAULT_LABEL}
