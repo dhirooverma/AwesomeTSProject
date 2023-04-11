@@ -1,57 +1,77 @@
 const MASTERS_EE = {
   classValue: [
-    {name: 'Kyaminipa', value: 'Kyaminipa'},
+    {name: 'Kyaminipa', value: 'Kyaminipa', key: '1'},
 
-    {name: 'Early Preschool 1', value: 'Early Preschool 1'},
+    {name: 'Early Preschool 1', value: 'Early Preschool 1', key: '2'},
 
-    {name: 'Early Preschool 2', value: 'Early Preschool 2'},
+    {name: 'Early Preschool 2', value: 'Early Preschool 2', key: '3'},
   ],
 
   planLibrary: [
-    {name: 'Halle Berry - Activities', value: 'Halle Berry - Activities'},
+    {
+      name: 'Halle Berry - Activities',
+      value: 'Halle Berry - Activities',
+      key: '1',
+    },
   ],
 
   type: [
-    {name: 'Enhancement', value: 'Enhancement'},
+    {name: 'Enhancement', value: 'Enhancement', key: '1'},
 
-    {name: 'Focus', value: 'Focus'},
+    {name: 'Focus', value: 'Focus', key: '2'},
 
-    {name: 'Small Group', value: 'ESmall Group'},
+    {name: 'Small Group', value: 'ESmall Group', key: '3'},
   ],
 
   scales: [
-    {name: '3-5 years: LCG early Math', value: '3-5 years: LCG early Math'},
+    {
+      name: '3-5 years: LCG early Math',
+      value: '3-5 years: LCG early Math',
+      key: '1',
+    },
 
-    {name: '3-5 years: LCG Language', value: '3-5 years: LCG Language'},
+    {
+      name: '3-5 years: LCG Language',
+      value: '3-5 years: LCG Language',
+      key: '2',
+    },
 
-    {name: '3-5 years: LCG Literacy', value: '3-5 years: LCG Literacy'},
+    {
+      name: '3-5 years: LCG Literacy',
+      value: '3-5 years: LCG Literacy',
+      key: '3',
+    },
   ],
 
   goals: {
-    '3-5 years: LCG early Math': [
+    1: [
       {
         name: 'Attempts to learn Objects',
 
         value: 'Attempts to learn Objects',
+        key: '1',
       },
 
       {
         name: 'Draws/Talks about aspects of Earth( eg soil, trees)',
 
         value: 'Draws/Talks about aspects of Earth( eg soil, trees) ',
+        key: '2',
       },
 
       {
         name: 'Talks about characteristics of living things ',
 
         value: 'Talks about characteristics of living things',
+        key: '3',
       },
     ],
-    '3-5 years: LCG Language': [
+    2: [
       {
         name: 'Distinguishes plants from animals',
 
         value: 'Distinguishes plants from animals',
+        key: '1',
       },
     ],
   },

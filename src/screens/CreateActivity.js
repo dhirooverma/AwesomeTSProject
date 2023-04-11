@@ -345,7 +345,7 @@ const CreateActivity = props => {
                   <Multiselect
                     disabled={true}
                     items={goalOptions}
-                    uniqueKey="name"
+                    uniqueKey="key"
                     selectText="Select Goals"
                     displayKey="name"
                     onSelectedItemsChange={selectedItem => {
