@@ -7,8 +7,6 @@ import {
   ScrollView,
   View,
   Dimensions,
-
-  Text
 } from 'react-native';
 import styles from './createActivityStyle';
 import InputText from '../components/InputText/index';
@@ -21,8 +19,8 @@ import {SELECTBOX_DEFAULT_LABEL, delay} from '../utils/constants';
 
 const ViewEditActivity = props => {
   const [formData, setFormData] = useState({});
+  const [goalOptions, setGoalOptions] = useState([]);
   const [isLoading, setLoading] = useState(false);
-  const [goalOptions, setGoalOptions] = useState([])
   const {control, handleSubmit, getValues, setValue} = useForm({
     defaultValues: {},
     mode: 'onChange',
@@ -49,7 +47,13 @@ const ViewEditActivity = props => {
 
   const tableData = props?.route?.params?.data;
 
-  const goals = tableData.goals === undefined ? [] : tableData.goals.split(',');
+   useEffect(() => {
+    if (formData?.goals?.[props?.route?.params?.data?.scale]== undefined)
+  {null}
+  else
+   {
+      setGoalOptions(formData?.goals?.[props?.route?.params?.data?.scale]);}},
+     [formData?.goals?.[props?.route?.params?.data?.scale]]);
 
   return (
     <View>
@@ -175,10 +179,8 @@ const ViewEditActivity = props => {
                   maxLength={100}
                   value={value}
                   editable={props?.route?.params?.view}
-                  // selectTextOnFocus={false}
                   onChangeText={option => {
                     onChange(option);
-                    // console.log(getValues('title'));
                   }}
                 />
               );
@@ -317,10 +319,10 @@ const ViewEditActivity = props => {
                 uniqueKey="value"
                 errorMessage={isSubmitted && errors?.select_scale?.message}
                 error={errors?.select_scale?.message && isSubmitted}
-                preSelected={value ?? tableData.scale}
+                preSelected={value ?? tableData.scale.name}
                 onValueChange={option => {
                   onChange(option);
-                  setValue('select_goals', undefined);
+                  setValue('select_goals', []);
                   setGoalOptions(formData?.goals?.[option] ?? []);
                 }}
               />
@@ -328,18 +330,9 @@ const ViewEditActivity = props => {
           />
           <Label title={'Select Goals'} />
           <Controller
-          defaultValue={goals}
-            // disabled={true}
+            defaultValue={tableData?.goals}
             control={control}
             name="select_goals"
-            rules={
-              {
-                // required: {
-                //   value: true,
-                //   message: 'Goals are required',
-                // },
-              }
-            }
             render={({
               field: {onChange, value},
               formState: {isSubmitted, errors},
@@ -347,11 +340,12 @@ const ViewEditActivity = props => {
               <ScrollView horizontal={true} style={{width: '100%'}}>
                 <View
                   style={{width: windowDimensions - 100}}
-                  pointerEvents={goalOptions.length > 0 ? 'auto' : 'none'}>
+                  pointerEvents={
+                    props?.route?.params?.view == false ? 'none' : 'auto'
+                  }>
                   <Multiselect
-                    // disabled={true}
                     items={goalOptions}
-                    uniqueKey="name"
+                    uniqueKey="key"
                     selectText="Select Goals"
                     displayKey="name"
                     onSelectedItemsChange={selectedItem => {
@@ -376,11 +370,6 @@ const ViewEditActivity = props => {
               </ScrollView>
             )}
           />
-          <View>
-            <Text>
-              {goals}
-            </Text>
-          </View>
           <Label title={'Add Attachment'} />
           <Controller
             control={control}

@@ -5,6 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import color from '../../utils/color';
 
 const ActivityTable = props => {
+  // console.log(props)
   return (
     <View style={{borderWidth: 1}}>
       <View style={{flexDirection: 'row', backgroundColor: color.PRIMARY_BLUE}}>
@@ -62,7 +63,7 @@ const ActivityTable = props => {
             <View style={styles.cellStyle2}>
               <TouchableOpacity
                 onPress={() => {
-                  props.deleteActivity(data.title);
+                  props.deleteActivity(data);
                 }}>
                 <Ionicons
                   name="trash-outline"
