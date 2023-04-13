@@ -73,6 +73,12 @@ const MASTERS_EE = {
         value: 'Distinguishes plants from animals',
         key: '1',
       },
+      {
+        name: 'Disting5555555555555555555555555555uishes plants from animals',
+
+        value: 'Distin55555555555555555555555555555guishes plants from animals',
+        key: '2',
+      },
     ],
   },
 };
@@ -80,29 +86,41 @@ const MASTERS_EE = {
 const TABLE_DATA = [
   {
     id: 1,
-    class: 'Kyaminipa',
-    planLibrary: 'Halle Berry - Activities',
-    type: 'Enhancement',
+
+    class: '1',
+
+    planLibrary: '1',
+
+    type: '1',
+
     title: 'Drawing Trees',
+
     preparation: 'need brush and color',
+
     keyword: 'paint',
+
     notes: 'database',
+
     facilitating:
       'schools were located in the same campus to facilitate the sharing of resources',
+
     description: 'Drawing trees with crayons and filling colors',
-    scale: '3-5 years: LCG early Math',
-    goals: 'Attempts to learn Objects',
+
+    scale: '1',
+
+    goals: ['1', '2'],
+
     attachment: 'file',
   },
 
   {
-    id: 1,
+    id: 2,
 
-    class: 'Early Preschool 1',
+    class: '2',
 
-    planLibrary: 'Halle Berry - Activities',
+    planLibrary: '1',
 
-    type: 'focus',
+    type: '2',
 
     title: 'drawing mountains',
 
@@ -117,19 +135,19 @@ const TABLE_DATA = [
 
     description: 'Drawing trees with crayons and filling colors',
 
-    scale: '3-5 years: LCG early Math',
+    scale: '1',
 
-    goals: 'Draws/Talks about aspects of Earth( eg soil, trees)',
+    goals: ['1'],
 
     attachment: 'file',
   },
 
   {
-    id: 1,
+    id: 3,
 
-    class: 'Early Preschool 2',
+    class: '2',
 
-    planLibrary: 'Halle Berry - Activities',
+    planLibrary: '1',
 
     type: 'Small Group',
 
@@ -146,9 +164,9 @@ const TABLE_DATA = [
 
     description: 'Drawing trees with crayons and filling colors',
 
-    scale: '3-5 years: LCG Language',
+    scale: '2',
 
-    goals: undefined,
+    goals: ['1'],
 
     attachment: 'file',
   },

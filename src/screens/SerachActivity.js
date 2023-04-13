@@ -38,12 +38,16 @@ const SearchActivity = props => {
   };
 
   const [alertVisible, setAlertVisible] = useState(false);
-
-  const handlePress = title => {
+  const [deleteID, setDeleteID] = useState(0);
+ 
+  const handlePress = (id) => {
     setAlertVisible(true);
+      // console.log(id);
+      setDeleteID(id)
   };
-  const handlePressOK = () => {
+  const handlePressOK = (id) => {
     setAlertVisible(false);
+    console.log(deleteID)
   };
 
   const handlePressCancel = () => {
@@ -54,7 +58,6 @@ const SearchActivity = props => {
     props.navigation.navigate('ViewEditActivity', {data, view: false});
   };
 
-  console.log(formData?.classValue);
 
   return (
     <View style={{flex: 1}}>

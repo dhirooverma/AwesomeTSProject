@@ -1,5 +1,6 @@
 
 import {StyleSheet} from 'react-native';
+import colors from "../../utils/color"
 
 export default StyleSheet.create({
   container: {
@@ -8,10 +9,10 @@ export default StyleSheet.create({
     // padding: '20%',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
+    backgroundColor: colors.  BLACK_BLUR_BACKGROUND
+    },
   alertBox: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.WHITE,
     borderRadius: 10,
     padding: 20,
     width: '30%',
@@ -22,10 +23,10 @@ export default StyleSheet.create({
     alignItems: 'flex-start',
     fontSize: 20,
     marginBottom: 10,
-    color: 'black',
+    color: colors.BLACK,
   },
   message: {
-    color: 'black',
+    color: colors.BLACK,
     fontSize: 16,
     marginBottom: 20,
   },
@@ -35,24 +36,24 @@ export default StyleSheet.create({
     width: '100%',
   },
   okButton: {
-    backgroundColor: 'green',
+    backgroundColor: colors.GREEN_AQI,
     paddingVertical: 12,
     paddingHorizontal: 22,
     borderRadius: 5,
     marginRight: 10,
   },
   okText: {
-    color: '#fff',
+    color: colors.WHITE,
     fontWeight: 'bold',
   },
   cancelButton: {
-    backgroundColor: 'red',
+    backgroundColor: colors.RED,
     paddingVertical: 12,
     paddingHorizontal: 22,
     borderRadius: 5,
   },
   cancelText: {
-    color: '#fff',
+    color: colors.WHITE,
     fontWeight: 'bold',
   },
 });
