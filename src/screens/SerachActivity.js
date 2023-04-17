@@ -16,7 +16,9 @@ import {SELECTBOX_DEFAULT_LABEL, TABLE_DATA} from '../utils/constants';
 import ActivityTable from '../components/ActivityTable/index';
 import AlertBox from '../components/AlertBox';
 
+
 const SearchActivity = props => {
+  console.log(props)
   const [formData, setFormData] = useState({});
   const [isLoading, setLoading] = useState(false);
   const {control, handleSubmit, getValues} = useForm({
@@ -60,7 +62,7 @@ const SearchActivity = props => {
 
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1}} testID="search-activity">
       <ScrollView style={styles.container}>
         <KeyboardAvoidingView
           enabled
@@ -190,13 +192,14 @@ const SearchActivity = props => {
           ViewActivity={ViewActivity}
         />
         <AlertBox
+          testID="alertBox"
           title="Delete Item"
-          message="Are you sure you want to delete this item?"
+          message="Are you sure you want to delete this activity?"
           visible={alertVisible}
           onPressOK={handlePressOK}
           onPressCancel={handlePressCancel}
           needCancelButton={true}
-          okayText="OKAY@"
+          okayText="OK"
         />
       </ScrollView>
       {isLoading && (

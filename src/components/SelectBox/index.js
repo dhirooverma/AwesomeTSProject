@@ -32,13 +32,21 @@ const SelectBox = props => {
   const renderOptions = useCallback(data => {
     const options = [
       <Picker.Item
+        testID="selectBoxTextDefault"
         label={SELECTBOX_DEFAULT_LABEL}
         value={SELECTBOX_DEFAULT_LABEL}
+        key={SELECTBOX_DEFAULT_LABEL}
       />,
     ];
     if (data && Array.isArray(data)) {
       data.forEach(option => {
-        options.push(<Picker.Item label={option.value} value={option.key} />);
+        options.push(
+          <Picker.Item
+            testID="selectBoxText"
+            label={option.value}
+            value={option.key}
+          />,
+        );
       });
     }
     return options;
@@ -48,6 +56,7 @@ const SelectBox = props => {
     return (
       <Picker
         {...props}
+        testID="selectBoxText"
         // eslint-disable-next-line react-native/no-inline-styles
         style={{
           ...styles.selectBox,
@@ -59,6 +68,7 @@ const SelectBox = props => {
         selectedValue={selectedValue}
         onValueChange={(itemValue, itemIndex) => {
           setSelectedValue(itemValue);
+          console.log('onValueChange called with', itemValue, itemIndex);
           props.onValueChange(itemValue, itemIndex);
         }}
         enabled={!props.disabled}>
@@ -81,6 +91,7 @@ const SelectBox = props => {
     return (
       <>
         <Pressable
+          testID="selectBox"
           // eslint-disable-next-line react-native/no-inline-styles
           style={{
             ...styles.selectBox,
@@ -92,6 +103,7 @@ const SelectBox = props => {
           onPress={openModal}
           android_ripple={{color: 'green'}}>
           <Text
+            testID="selectBoxText"
             style={{
               ...styles.selectBoxText,
               color: props.disabled ? colors.GRAY : colors.BLACK,
@@ -109,9 +121,10 @@ const SelectBox = props => {
           animationType="slide"
           transparent={true}
           visible={isVisible}
-          style={styles.modalView}>
+          style={styles.modalView}
+          testID="modal">
           <TouchableWithoutFeedback onPress={closeModal}>
-            <View style={styles.modalContainerStyle}>
+            <View style={styles.modalContainerStyle} >
               <TouchableWithoutFeedback onPress={e => e.preventDefault()}>
                 <View style={styles.modalContent}>
                   <Picker
@@ -122,6 +135,8 @@ const SelectBox = props => {
                       console.log('item value', itemValue, itemIndex);
                       setSelectedValue(itemValue);
                       props.onValueChange(itemValue, itemIndex);
+            testID = 'selectBoxText';
+
                     }}>
                     {renderOptions(props.data)}
                   </Picker>
@@ -134,7 +149,7 @@ const SelectBox = props => {
     );
   }, [isVisible, selectedValue, openModal, props, renderOptions, optionsData]);
   return (
-    <View>
+    <View >
       {Platform.OS === 'android' ? androidView : iosView}
       {props.errorMessage && (
         <Text style={{color: 'red'}}>{props.errorMessage}</Text>

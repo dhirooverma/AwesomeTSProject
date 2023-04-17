@@ -9,6 +9,7 @@ const InputText = props => {
     <View>
       <TextInput
         {...props}
+        testID={props.testID}
         autoCorrect={props.autoCorrect ? props.autoCorrect : false}
         style={[
           styles.textFieldStyle,

@@ -18,7 +18,6 @@ import SelectBox from '../components/SelectBox/index';
 import Multiselect from 'react-native-multiple-select';
 import {getActivityFormData} from '../controller/activityData';
 import {SELECTBOX_DEFAULT_LABEL, delay} from '../utils/constants';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const CreateActivity = props => {
   const [formData, setFormData] = useState({});
@@ -31,16 +30,16 @@ const CreateActivity = props => {
   });
   const windowDimensions = Dimensions.get('window').width;
 
-  useEffect(() => {
-    props.navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          onPress={() => props.navigation?.navigate('CreateWeeklyPlan')}>
-          <Ionicons name="calendar" size={30} color={'#fff'} />
-        </TouchableOpacity>
-      ),
-    });
-  }, [props.navigation]);
+  // useEffect(() => {
+  //   props.navigation.setOptions({
+  //     headerRight: () => (
+  //       <TouchableOpacity
+  //         onPress={() => props.navigation?.navigate('CreateWeeklyPlan')}>
+  //         <Ionicons name="calendar" size={30} color={'#fff'} />
+  //       </TouchableOpacity>
+  //     ),
+  //   });
+  // }, [props.navigation]);
 
   const onSubmit = async () => {
     setLoading(true);
@@ -60,7 +59,7 @@ const CreateActivity = props => {
   }, []);
 
   return (
-    <View>
+    <View testID="createActivity">
       <ScrollView style={styles.container}>
         <KeyboardAvoidingView
           enabled
@@ -171,6 +170,7 @@ const CreateActivity = props => {
             }) => {
               return (
                 <InputText
+                  testID="inputText"
                   errorMessage={isSubmitted && errors?.title?.message}
                   error={errors?.title?.message && isSubmitted}
                   maxLength={100}
@@ -244,6 +244,7 @@ const CreateActivity = props => {
             name="description"
             render={({field: {onChange, value}}) => (
               <InputText
+                testID="descriptionInput"
                 value={value}
                 multiline
                 maxLength={2000}
@@ -275,6 +276,7 @@ const CreateActivity = props => {
             }) => {
               return (
                 <InputText
+                  testID="activityInput"
                   errorMessage={isSubmitted && errors?.keywords?.message}
                   error={errors?.keywords?.message && isSubmitted}
                   maxLength={100}
@@ -326,14 +328,6 @@ const CreateActivity = props => {
             disabled={true}
             control={control}
             name="select_goals"
-            rules={
-              {
-                // required: {
-                //   value: true,
-                //   message: 'Goals are required',
-                // },
-              }
-            }
             render={({
               field: {onChange, value},
               formState: {isSubmitted, errors},
@@ -388,11 +382,9 @@ const CreateActivity = props => {
           />
           <View style={{marginBottom: 150}}>
             <Button
+              testID="button"
               title={'Submit'}
-              onPress={
-                handleSubmit(onSubmit)
-                // () => props.navigation.navigate('SearchActivity')
-              }
+              onPress={handleSubmit(onSubmit)}
             />
           </View>
         </KeyboardAvoidingView>
@@ -400,6 +392,7 @@ const CreateActivity = props => {
       {isLoading && (
         <View style={styles.indicatorContainer}>
           <ActivityIndicator
+            testID="loadingIndicator"
             style={{transform: [{scaleX: 3}, {scaleY: 3}]}}
             color="#000"
           />
