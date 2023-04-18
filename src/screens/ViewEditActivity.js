@@ -7,6 +7,7 @@ import {
   ScrollView,
   View,
   Dimensions,
+  Text
 } from 'react-native';
 import styles from './createActivityStyle';
 import InputText from '../components/InputText/index';
@@ -18,6 +19,7 @@ import {getActivityFormData} from '../controller/activityData';
 import {SELECTBOX_DEFAULT_LABEL, delay} from '../utils/constants';
 
 const ViewEditActivity = props => {
+  // console.log(props?.route?.params?.data);
   const [formData, setFormData] = useState({});
   const [goalOptions, setGoalOptions] = useState([]);
   const [isLoading, setLoading] = useState(false);
@@ -43,6 +45,7 @@ const ViewEditActivity = props => {
       setFormData(data);
       setLoading(false);
     });
+    
   }, []);
 
   const tableData = props?.route?.params?.data;
@@ -56,7 +59,7 @@ const ViewEditActivity = props => {
      [formData?.goals?.[props?.route?.params?.data?.scale]]);
 
   return (
-    <View>
+    <View testID="ViewEditActivity">
       <ScrollView style={styles.container}>
         <KeyboardAvoidingView
           enabled
@@ -75,7 +78,7 @@ const ViewEditActivity = props => {
                   ? 'Please select a valid option'
                   : null,
             }}
-            defaultValue={tableData.class}
+            defaultValue={tableData?.class}
             render={({
               field: {onChange, value},
               formState: {isSubmitted, errors},
@@ -88,7 +91,7 @@ const ViewEditActivity = props => {
                 disabled={props?.route?.params?.view === false ? true : false}
                 error={errors?.class?.message && isSubmitted}
                 id={'class'}
-                preSelected={tableData.class}
+                preSelected={tableData?.class}
                 onValueChange={option => {
                   onChange(option);
                 }}
@@ -109,7 +112,7 @@ const ViewEditActivity = props => {
                   ? 'Please select a valid option'
                   : null,
             }}
-            defaultValue={tableData.planLibrary}
+            defaultValue={tableData?.planLibrary}
             render={({
               field: {onChange, value},
               formState: {isSubmitted, errors},
@@ -138,7 +141,7 @@ const ViewEditActivity = props => {
                   ? 'Please select a valid option'
                   : null,
             }}
-            defaultValue={tableData.type}
+            defaultValue={tableData?.type}
             name="type"
             render={({
               field: {onChange, value},
@@ -150,7 +153,7 @@ const ViewEditActivity = props => {
                 error={errors?.type?.message && isSubmitted}
                 disabled={props?.route?.params?.view == false ? true : false}
                 id={'type'}
-                preSelected={value ?? tableData.type}
+                preSelected={value ?? tableData?.type}
                 onValueChange={onChange}
               />
             )}
@@ -167,13 +170,14 @@ const ViewEditActivity = props => {
                 value.length > 100 ? 'Length should be less than 100' : null,
             }}
             name="title"
-            defaultValue={tableData.title}
+            defaultValue={tableData?.title}
             render={({
               field: {onChange, value},
               formState: {isValid, isSubmitted, errors},
             }) => {
               return (
                 <InputText
+                  testID="activityInput"
                   errorMessage={isSubmitted && errors?.title?.message}
                   error={errors?.title?.message && isSubmitted}
                   maxLength={100}
@@ -192,7 +196,7 @@ const ViewEditActivity = props => {
           <Label title={'Preparation'} />
           <Controller
             control={control}
-            defaultValue={tableData.preparation}
+            defaultValue={tableData?.preparation}
             name="preparation"
             render={({field: {onChange, value}}) => {
               return (
@@ -212,7 +216,7 @@ const ViewEditActivity = props => {
           <Controller
             control={control}
             name="notes"
-            defaultValue={tableData.notes}
+            defaultValue={tableData?.notes}
             render={({field: {onChange, value}}) => (
               <InputText
                 value={value}
@@ -230,7 +234,7 @@ const ViewEditActivity = props => {
           <Controller
             control={control}
             name="facilitating"
-            defaultValue={tableData.facilitating}
+            defaultValue={tableData?.facilitating}
             render={({field: {onChange, value}}) => (
               <InputText
                 value={value}
@@ -248,7 +252,7 @@ const ViewEditActivity = props => {
           <Controller
             control={control}
             name="description"
-            defaultValue={tableData.description}
+            defaultValue={tableData?.description}
             render={({field: {onChange, value}}) => (
               <InputText
                 value={value}
@@ -265,7 +269,7 @@ const ViewEditActivity = props => {
           <Label title={'Keywords'} />
           <Controller
             control={control}
-            defaultValue={tableData.keyword}
+            defaultValue={tableData?.keyword}
             rules={{
               required: {
                 value: true,
@@ -307,7 +311,7 @@ const ViewEditActivity = props => {
                   ? 'Please select a valid option'
                   : undefined,
             }}
-            defaultValue={tableData.scale}
+            defaultValue={tableData?.scale}
             render={({
               field: {onChange, value},
               formState: {isSubmitted, errors},
@@ -319,7 +323,7 @@ const ViewEditActivity = props => {
                 uniqueKey="value"
                 errorMessage={isSubmitted && errors?.select_scale?.message}
                 error={errors?.select_scale?.message && isSubmitted}
-                preSelected={value ?? tableData.scale.name}
+                preSelected={value ?? tableData?.scale?.name}
                 onValueChange={option => {
                   onChange(option);
                   setValue('select_goals', []);
@@ -359,6 +363,7 @@ const ViewEditActivity = props => {
                     styleDropdownMenuSubsection={
                       styles.styleDropdownMenuSubsection
                     }
+                    style={styles.increaseSizeForAndroid}
                     searchInputStyle={styles.searchInput}
                   />
                   {isSubmitted && errors?.select_scale?.message && (
@@ -374,7 +379,7 @@ const ViewEditActivity = props => {
           <Controller
             control={control}
             name="attachment"
-            defaultValue={tableData.attachment}
+            defaultValue={tableData?.attachment}
             render={({field: {onChange, value}}) => (
               <InputText
                 value={value}

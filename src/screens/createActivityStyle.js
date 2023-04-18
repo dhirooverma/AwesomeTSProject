@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import colors from '../utils/color';
 
 export default StyleSheet.create({
@@ -28,8 +28,27 @@ export default StyleSheet.create({
     paddingLeft: 10,
     paddingBottom: 10,
   },
+  increaseSizeForAndroid: {
+    ...Platform.select({
+      android: {
+        paddingVertical: 8,
+        margin:10,
+        color:"red",
+        backgroundColor:"red"
+      },
+    }),
+  },
   indicatorStyle: {color: colors.BLACK},
-  dropDownTextStyle: {fontSize: 16, marginTop: 5},
+  dropDownTextStyle: {fontSize: 16,
+     ...Platform.select({
+      android: {
+        marginTop:2,
+      },
+      ios:{
+ marginTop: 5,
+      }
+    }),
+    },
   searchInput: {color: '#000', fontSize: 16, padding: 15},
   styleDropdownMenuSubsection: {borderBottomWidth: 0},
 });

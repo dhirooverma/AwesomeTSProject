@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modalContainerStyle: {
+   
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
