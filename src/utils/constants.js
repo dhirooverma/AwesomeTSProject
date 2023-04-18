@@ -16,11 +16,13 @@ const MASTERS_EE = {
   ],
 
   type: [
-    {name: 'Enhancement', value: 'Enhancement', key: '1'},
+    {name: 'Morning Small Group', value: 'Morning Small Group', key: '1'},
 
-    {name: 'Focus', value: 'Focus', key: '2'},
+    {name: 'Afternoon Small Group', value: 'Afternoon Small Group', key: '2'},
 
-    {name: 'Small Group', value: 'ESmall Group', key: '3'},
+    {name: 'Afternoon Large Group', value: 'Afternoon Large Group', key: '3'},
+    {name: 'Enhancement', value: 'Enhancement', key: '4'},
+    {name: 'Daily Focus', value: 'Daily Focus', key: '5'},
   ],
 
   scales: [
@@ -172,6 +174,71 @@ const TABLE_DATA = [
   },
 ];
 
+const planLibrary = [
+  {
+    name: 'Halle Berry - Activities',
+    value: 'Halle Berry - Activities',
+    key: '1',
+  },
+];
+
+const ActivityListInfo = [
+  {
+    ActivityLibraryID: 'Activity Lib 1',
+    ActivityLibraryName: 'First Activity Library',
+    ActivityList: [
+      {
+        ActivityId: ' Activity Id 1',
+        ActivityName: 'Morning Activity ',
+        ActivityDescription: 'Activity Description',
+        ActivityTypeKey: '1',
+        ActivityTypeValue: 'Morning Small group',
+      },
+      {
+        ActivityId: ' Activity Id 2',
+        ActivityName: 'afternoon small Activity ',
+        ActivityDescription: 'Activity Description',
+        ActivityTypeKey: '2',
+        ActivityTypeValue: 'Afternoon Small group',
+      },
+      {
+        ActivityId: ' Activity Id 3',
+        ActivityName: 'Afternoon large Activity ',
+        ActivityDescription: 'Activity Description',
+        ActivityTypeKey: '3',
+        ActivityTypeValue: 'Afternoon Large group',
+      },
+    ],
+  },
+  {
+    ActivityLibraryID: 'Activity Lib 2',
+    ActivityLibraryName: 'Second Activity Library',
+    ActivityList: [
+      {
+        ActivityId: ' Activity Id 21',
+        ActivityName: 'Enhancement Activity ',
+        ActivityDescription: 'Activity Description',
+        ActivityTypeKey: '4',
+        ActivityTypeValue: 'Enhancement',
+      },
+      {
+        ActivityId: ' Activity Id 22',
+        ActivityName: 'Enhancement Activity 2',
+        ActivityDescription: 'Activity Description',
+        ActivityTypeKey: '4',
+        ActivityTypeValue: 'Enhancement',
+      },
+      {
+        ActivityId: ' Activity Id 23',
+        ActivityName: 'Focus Activity ',
+        ActivityDescription: 'Activity Description',
+        ActivityTypeKey: '5',
+        ActivityTypeValue: 'Focus',
+      },
+    ],
+  },
+];
+
 const delay = () => {
   return new Promise((reslove, reject) => {
     setTimeout(() => {
@@ -182,4 +249,11 @@ const delay = () => {
 
 const SELECTBOX_DEFAULT_LABEL = 'Please Select';
 
-export {MASTERS_EE, SELECTBOX_DEFAULT_LABEL, delay, TABLE_DATA};
+export {
+  MASTERS_EE,
+  SELECTBOX_DEFAULT_LABEL,
+  delay,
+  TABLE_DATA,
+  ActivityListInfo,
+  planLibrary,
+};
