@@ -239,12 +239,124 @@ const ActivityListInfo = [
   },
 ];
 
-const delay = () => {
+const delay = (time = 2000) => {
   return new Promise((reslove, reject) => {
     setTimeout(() => {
       reslove(true);
-    }, 2000);
+    }, time);
   });
+};
+
+const prePopulateWeeklyPlan = {
+  class: '',
+  classId: '',
+  planLibraryId: '1',
+  planName: 'Pre populated plan name',
+  teacherName: 'Pre populated teacher name',
+  teacherId: '',
+  notes: 'Pre Populated Notes test',
+  createdDate: '2023-04-20T14:28:22.000Z',
+  ActivityList: [
+    {
+      Day: 'Monday',
+      Date: '10-Apr-2023',
+      isHoliday: 'No',
+      Activities: [
+        {
+          ActivityId: ' Activity Id 1',
+          ActivityName: 'Morning Activity ',
+          ActivityDescription: 'Activity Description',
+          ActivityTypeKey: '1',
+          ActivityTypeValue: 'Morning Small group',
+          key: ' Activity Id 1',
+          value: 'Morning Activity ',
+          ActivityLibraryID: 'Activity Lib 1',
+          ActivityLibraryName: 'First Activity Library',
+        },
+        {
+          ActivityId: ' Activity Id 3',
+          ActivityName: 'Afternoon large Activity ',
+          ActivityDescription: 'Activity Description',
+          ActivityTypeKey: '3',
+          ActivityTypeValue: 'Afternoon Large group',
+          key: ' Activity Id 3',
+          value: 'Afternoon large Activity ',
+        },
+        {
+          ActivityId: ' Activity Id 23',
+          ActivityName: 'Focus Activity ',
+          ActivityDescription: 'Activity Description',
+          ActivityTypeKey: '5',
+          ActivityTypeValue: 'Focus',
+          key: ' Activity Id 23',
+          value: 'Focus Activity ',
+        },
+      ],
+    },
+    {
+      Day: 'Friday',
+      Date: '10-Apr-2023',
+      isHoliday: 'No',
+      Activities: [
+        {
+          ActivityId: ' Activity Id 2',
+          ActivityName: 'afternoon small Activity ',
+          ActivityDescription: 'Activity Description',
+          ActivityTypeKey: '2',
+          ActivityTypeValue: 'Afternoon Small group',
+          key: ' Activity Id 2',
+          value: 'afternoon small Activity ',
+          ActivityLibraryID: 'Activity Lib 1',
+          ActivityLibraryName: 'First Activity Library',
+        },
+      ],
+    },
+    {
+      Day: 'Wednesday',
+      Date: '10-Apr-2023',
+      isHoliday: 'No',
+      Activities: [
+        {
+          ActivityId: ' Activity Id 3',
+          ActivityName: 'Afternoon large Activity ',
+          ActivityDescription: 'Activity Description',
+          ActivityTypeKey: '3',
+          ActivityTypeValue: 'Afternoon Large group',
+          key: ' Activity Id 3',
+          value: 'Afternoon large Activity ',
+          ActivityLibraryID: 'Activity Lib 1',
+          ActivityLibraryName: 'First Activity Library',
+        },
+        {
+          ActivityId: ' Activity Id 22',
+          ActivityName: 'Enhancement Activity 2',
+          ActivityDescription: 'Activity Description',
+          ActivityTypeKey: '4',
+          ActivityTypeValue: 'Enhancement',
+          key: ' Activity Id 22',
+          value: 'Enhancement Activity 2',
+        },
+      ],
+    },
+    {
+      Day: 'Thursday',
+      Date: '10-Apr-2023',
+      isHoliday: 'No',
+      Activities: [
+        {
+          ActivityId: ' Activity Id 2',
+          ActivityName: 'afternoon small Activity ',
+          ActivityDescription: 'Activity Description',
+          ActivityTypeKey: '2',
+          ActivityTypeValue: 'Afternoon Small group',
+          key: ' Activity Id 2',
+          value: 'afternoon small Activity ',
+          ActivityLibraryID: 'Activity Lib 1',
+          ActivityLibraryName: 'First Activity Library',
+        },
+      ],
+    },
+  ],
 };
 
 const SELECTBOX_DEFAULT_LABEL = 'Please Select';
@@ -256,4 +368,5 @@ export {
   TABLE_DATA,
   ActivityListInfo,
   planLibrary,
+  prePopulateWeeklyPlan,
 };

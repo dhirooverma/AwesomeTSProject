@@ -17,7 +17,12 @@ import Label from '../components/Label/index';
 import SelectBox from '../components/SelectBox/index';
 import Multiselect from 'react-native-multiple-select';
 import {getActivityFormData} from '../controller/activityData';
-import {SELECTBOX_DEFAULT_LABEL, delay} from '../utils/constants';
+import {
+  SELECTBOX_DEFAULT_LABEL,
+  delay,
+  prePopulateWeeklyPlan,
+} from '../utils/constants';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const CreateActivity = props => {
   const [formData, setFormData] = useState({});
@@ -30,16 +35,32 @@ const CreateActivity = props => {
   });
   const windowDimensions = Dimensions.get('window').width;
 
-  // useEffect(() => {
-  //   props.navigation.setOptions({
-  //     headerRight: () => (
-  //       <TouchableOpacity
-  //         onPress={() => props.navigation?.navigate('CreateWeeklyPlan')}>
-  //         <Ionicons name="calendar" size={30} color={'#fff'} />
-  //       </TouchableOpacity>
-  //     ),
-  //   });
-  // }, [props.navigation]);
+  useEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        <View style={{flexDirection: 'row'}}>
+          <Ionicons
+            style={{marginRight: 30}}
+            onPress={() => props.navigation?.navigate('CreateWeeklyPlan')}
+            name="calendar"
+            size={30}
+            color={'#fff'}
+          />
+          <Ionicons
+            onPress={() =>
+              props.navigation?.navigate('CreateWeeklyPlan', {
+                prePopulateWeeklyPlan,
+                viewMode: true,
+              })
+            }
+            name="eye"
+            size={30}
+            color={'#fff'}
+          />
+        </View>
+      ),
+    });
+  }, [props.navigation]);
 
   const onSubmit = async () => {
     setLoading(true);

@@ -15,7 +15,7 @@ const PlanModal = ({
   activityLibraryData = [],
   activityOptionsData = [],
   setActivityOptions,
-  activityTypeKey,
+  ActivityTypeKey,
   weekday,
   addPlan,
 }) => {
@@ -30,8 +30,8 @@ const PlanModal = ({
     const planData = {
       activityId: formValues?.select_activity,
       weekday: weekday,
-      activityTypeKey: activityTypeKey,
-      activityLibrary: formValues?.activity_library,
+      ActivityTypeKey: ActivityTypeKey,
+      ActivityLibraryID: formValues?.activity_library,
     };
     addPlan(planData);
     closeModal();
@@ -48,7 +48,7 @@ const PlanModal = ({
   };
 
   const setActivity = ActivityLibraryID => {
-    setActivityOptions(ActivityLibraryID, activityTypeKey);
+    setActivityOptions(ActivityLibraryID, ActivityTypeKey);
   };
 
   return (

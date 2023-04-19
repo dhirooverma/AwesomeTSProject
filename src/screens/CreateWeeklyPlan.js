@@ -25,18 +25,52 @@ import Button from '../components/Button/index';
 import color from '../utils/color';
 import weeklyStyles from './createWeeklyPlanStyles';
 import PlanModal from '../components/PlanModal/index';
+import {useRoute} from '@react-navigation/native';
 
-const weekday = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+const weekdayArray = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
 const CreateWeeklyPlan = props => {
   const [isLoading, setLoading] = useState(false);
   const [isVisible, setVisible] = useState(false);
   const [activityLibraryData, setActivityLibraryData] = useState({});
   const [activityOptionsData, setActivityOptionsData] = useState({});
-  const [weeklyPlanData, setWeeklyPlanData] = useState({activity: {}});
+  const [weeklyPlanData, setWeeklyPlanData] = useState({});
   const modalRef = useRef({});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const prePopulateWeeklyPlan = useRoute()?.params?.prePopulateWeeklyPlan ?? {};
+  const viewMode = useRoute()?.params?.viewMode;
+
+  const getActivityObject = activities => {
+    let activityObject = {};
+    activities.forEach(activity => {
+      activityObject[activity.ActivityTypeKey] = activity;
+    });
+    return activityObject;
+  };
+
+  useEffect(() => {
+    if (prePopulateWeeklyPlan?.ActivityList?.length) {
+      let activityLibrary = {};
+      prePopulateWeeklyPlan?.ActivityList.forEach(data => {
+        activityLibrary[data.Day] = {
+          ...data,
+          Activities: getActivityObject(data.Activities),
+        };
+      });
+      setWeeklyPlanData(activityLibrary);
+    }
+  }, [prePopulateWeeklyPlan]);
+
   const {control, handleSubmit, getValues} = useForm({
-    defaultValues: {},
+    defaultValues: {
+      planLibrary: prePopulateWeeklyPlan?.planLibraryId,
+      planName: prePopulateWeeklyPlan?.planName,
+      teacherName: prePopulateWeeklyPlan?.teacherName,
+      createdDate:
+        prePopulateWeeklyPlan?.createdDate &&
+        new Date(prePopulateWeeklyPlan?.createdDate),
+      notes: prePopulateWeeklyPlan?.notes,
+    },
     mode: 'onChange',
     reValidateMode: 'onChange',
   });
@@ -44,16 +78,24 @@ const CreateWeeklyPlan = props => {
   const onSubmit = async () => {
     setLoading(true);
     const formValues = getValues();
-    weeklyPlanData['class'] = '';
-    weeklyPlanData['classId'] = '';
-    weeklyPlanData['planLibraryId'] = formValues?.planLibrary;
-    weeklyPlanData['planName'] = formValues?.plan;
-    weeklyPlanData['teacherName'] = formValues?.teacher;
-    weeklyPlanData['teacherId'] = '';
-    weeklyPlanData['notes'] = formValues?.notes ?? '';
-    weeklyPlanData['createdDate'] = formValues?.date ?? new Date();
-    await delay();
-    console.log('formValues', weeklyPlanData);
+    const formData = {};
+    formData['class'] = '';
+    formData['classId'] = '';
+    formData['planLibraryId'] = formValues?.planLibrary;
+    formData['planName'] = formValues?.planName;
+    formData['teacherName'] = formValues?.teacherName;
+    formData['teacherId'] = '';
+    formData['notes'] = formValues?.notes ?? '';
+    formData['createdDate'] = formValues?.createdDate ?? new Date();
+    formData['ActivityList'] = Object.values(weeklyPlanData).map(
+      dayActivity => {
+        return {
+          ...dayActivity,
+          Activities: Object.values(dayActivity?.Activities),
+        };
+      },
+    );
+    await delay(1000);
     setLoading(false);
   };
 
@@ -65,11 +107,11 @@ const CreateWeeklyPlan = props => {
     setActivityLibraryData(getActivityLibraryData());
   }, []);
 
-  const setActivityOptions = (ActivityLibraryID, activityTypeKey) => {
+  const setActivityOptions = (ActivityLibraryID, ActivityTypeKey) => {
     const activityData = activityLibraryData[
       ActivityLibraryID
     ]?.activityList.filter(data => {
-      return data.ActivityTypeKey === activityTypeKey;
+      return data.ActivityTypeKey === ActivityTypeKey;
     });
     const mappedObject = {};
     activityData?.forEach(
@@ -94,21 +136,37 @@ const CreateWeeklyPlan = props => {
 
   /**
    *
-   * @param {*} activityTypeKey key from activity type select box
-   * @param {*} dayIndex day index monday to friday 1 to 5
+   * @param {*} ActivityTypeKey key from activity type select box
+   * @param {*} weekday weekday monday to friday
    */
-  const addActivityModal = (activityTypeKey, dayIndex) => {
-    modalRef.current = {activityTypeKey, dayIndex};
+  const addActivityModal = (ActivityTypeKey, weekday) => {
+    modalRef.current = {ActivityTypeKey, weekday};
     openModal();
   };
 
   const addPlan = (planData = {}) => {
-    weeklyPlanData['activity'][
-      `${planData.activityTypeKey},${planData?.weekday}`
-    ] = {
-      activityId: activityOptionsData[planData.activityId]?.ActivityName,
-      activityLibrary: planData.activityLibrary,
-    };
+    const libraryData = activityLibraryData[planData?.ActivityLibraryID] ?? {};
+    if (weeklyPlanData[planData?.weekday]) {
+      weeklyPlanData[planData?.weekday].Activities[planData?.ActivityTypeKey] =
+        {
+          ...activityOptionsData[planData?.activityId],
+          ActivityTypeKey: planData?.ActivityTypeKey,
+        };
+    } else {
+      weeklyPlanData[planData?.weekday] = {
+        Day: planData?.weekday,
+        Date: '10-Apr-2023',
+        isHoliday: 'No',
+        Activities: {
+          [planData?.ActivityTypeKey]: {
+            ...activityOptionsData[planData?.activityId],
+            ActivityTypeKey: planData?.ActivityTypeKey,
+            ActivityLibraryID: libraryData?.key,
+            ActivityLibraryName: libraryData?.value,
+          },
+        },
+      };
+    }
     setWeeklyPlanData({...weeklyPlanData});
   };
 
@@ -122,13 +180,13 @@ const CreateWeeklyPlan = props => {
           style={[
             weeklyStyles.bodyText,
             {
-              fontWeight: weeklyPlanData?.activity?.[`${key},${weekday}`]
-                ?.activityId
+              fontWeight: weeklyPlanData?.[weekday]?.Activities?.[key]
+                ?.ActivityName
                 ? 'bold'
                 : 'normal',
             },
           ]}>
-          {weeklyPlanData?.activity?.[`${key},${weekday}`]?.activityId ??
+          {weeklyPlanData?.[weekday]?.Activities?.[key]?.ActivityName ??
             'Add Activity'}
         </Text>
       </TouchableOpacity>
@@ -183,15 +241,15 @@ const CreateWeeklyPlan = props => {
                   ? 'Length should be less than 100'
                   : undefined,
             }}
-            name="plan"
+            name="planName"
             render={({
               field: {onChange, value},
               formState: {isSubmitted, errors},
             }) => {
               return (
                 <InputText
-                  errorMessage={isSubmitted && errors?.plan?.message}
-                  error={errors?.plan?.message && isSubmitted}
+                  errorMessage={isSubmitted && errors?.planName?.message}
+                  error={errors?.planName?.message && isSubmitted}
                   maxLength={100}
                   value={value}
                   editable
@@ -215,15 +273,15 @@ const CreateWeeklyPlan = props => {
                   ? 'Length should be less than 100'
                   : undefined,
             }}
-            name="teacher"
+            name="teacherName"
             render={({
               field: {onChange, value},
               formState: {isSubmitted, errors},
             }) => {
               return (
                 <InputText
-                  errorMessage={isSubmitted && errors?.teacher?.message}
-                  error={errors?.teacher?.message && isSubmitted}
+                  errorMessage={isSubmitted && errors?.teacherName?.message}
+                  error={errors?.teacherName?.message && isSubmitted}
                   maxLength={100}
                   value={value}
                   editable
@@ -236,7 +294,7 @@ const CreateWeeklyPlan = props => {
           />
           <Controller
             control={control}
-            name="date"
+            name="createdDate"
             render={({
               field: {onChange, value},
               formState: {isSubmitted, errors},
@@ -244,16 +302,18 @@ const CreateWeeklyPlan = props => {
               return (
                 <CustomDatePicker
                   pickerLabel={'Plan week (First day of the week)'}
-                  name="date"
-                  updateFormValue={(name, date) => {
-                    onChange(date);
+                  name="createdDate"
+                  updateFormValue={(name, createdDate) => {
+                    onChange(createdDate);
                   }}
                   defaultDate={value ?? new Date()} // default date should be in date format like new Date(10-05-2023)
                 />
               );
             }}
           />
-          <View style={{borderWidth: 1, marginBottom: 20, marginTop: 50}}>
+          <View
+            pointerEvents={viewMode ? 'none' : 'auto'}
+            style={{borderWidth: 1, marginBottom: 20, marginTop: 50}}>
             <View
               style={{
                 flexDirection: 'row',
@@ -262,7 +322,7 @@ const CreateWeeklyPlan = props => {
               <View style={weeklyStyles.cellStyle2}>
                 <Text style={weeklyStyles.headerText}>Time of day</Text>
               </View>
-              {weekday.map(week => (
+              {weekdayArray.map(week => (
                 <View style={weeklyStyles.cellStyle2}>
                   <Text style={weeklyStyles.headerText}>{week}</Text>
                 </View>
@@ -281,9 +341,7 @@ const CreateWeeklyPlan = props => {
                       {data.name ?? ''}
                     </Text>
                   </View>
-                  {weekday.map((week, index) =>
-                    renderCell(data.key, index + 1),
-                  )}
+                  {weekdayArray.map(week => renderCell(data.key, week))}
                 </View>
               ))}
           </View>
@@ -310,11 +368,13 @@ const CreateWeeklyPlan = props => {
             }}
           />
 
-          <Button
-            style={{marginTop: 20}}
-            title={'Save Plan'}
-            onPress={handleSubmit(onSubmit, onError)}
-          />
+          {!viewMode && (
+            <Button
+              style={{marginTop: 20}}
+              title={'Save Plan'}
+              onPress={handleSubmit(onSubmit, onError)}
+            />
+          )}
         </KeyboardAvoidingView>
         {/* <ActivityTable data={TABLE_DATA} /> */}
       </ScrollView>
@@ -332,8 +392,8 @@ const CreateWeeklyPlan = props => {
         setActivityOptions={setActivityOptions}
         closeModal={closeModal}
         isVisible={isVisible}
-        activityTypeKey={modalRef.current.activityTypeKey}
-        weekday={modalRef.current.dayIndex}
+        ActivityTypeKey={modalRef.current.ActivityTypeKey}
+        weekday={modalRef.current.weekday}
         addPlan={addPlan}
       />
     </View>

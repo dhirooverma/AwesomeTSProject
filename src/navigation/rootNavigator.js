@@ -25,14 +25,14 @@ const RootNavigator = () => {
           //   ),
           headerStyle: {backgroundColor: '#4A87A9'},
         }}>
-        {/* <StackNavigator.Screen
+        <StackNavigator.Screen
           options={{
             title: 'Create Activity',
             headerTitleStyle: {color: '#fff', fontSize: 20},
           }}
           name="CreateActivity"
           component={CreateActivity}
-        /> */}
+        />
         <StackNavigator.Screen
           options={{
             headerBackTitleVisible: false,
