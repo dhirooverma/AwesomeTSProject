@@ -124,18 +124,17 @@ const SelectBox = props => {
           style={styles.modalView}
           testID="modal">
           <TouchableWithoutFeedback onPress={closeModal}>
-            <View style={styles.modalContainerStyle} >
+            <View style={styles.modalContainerStyle}>
               <TouchableWithoutFeedback onPress={e => e.preventDefault()}>
                 <View style={styles.modalContent}>
                   <Picker
+                    testID="selectBoxText"
                     style={{justifyContent: 'center', height: '100%'}}
                     {...props}
                     selectedValue={selectedValue}
                     onValueChange={(itemValue, itemIndex) => {
                       setSelectedValue(itemValue);
                       props.onValueChange(itemValue, itemIndex);
-            testID = 'selectBoxText';
-
                     }}>
                     {renderOptions(props.data)}
                   </Picker>
@@ -148,7 +147,7 @@ const SelectBox = props => {
     );
   }, [isVisible, selectedValue, openModal, props, renderOptions, optionsData]);
   return (
-    <View >
+    <View>
       {Platform.OS === 'android' ? androidView : iosView}
       {props.errorMessage && (
         <Text style={{color: 'red'}}>{props.errorMessage}</Text>

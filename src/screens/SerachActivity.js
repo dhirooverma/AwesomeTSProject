@@ -16,9 +16,8 @@ import {SELECTBOX_DEFAULT_LABEL, TABLE_DATA} from '../utils/constants';
 import ActivityTable from '../components/ActivityTable/index';
 import AlertBox from '../components/AlertBox';
 
-
 const SearchActivity = props => {
-  console.log(props)
+  console.log(props);
   const [formData, setFormData] = useState({});
   const [isLoading, setLoading] = useState(false);
   const {control, handleSubmit, getValues} = useForm({
@@ -41,15 +40,15 @@ const SearchActivity = props => {
 
   const [alertVisible, setAlertVisible] = useState(false);
   const [deleteID, setDeleteID] = useState(0);
- 
-  const handlePress = (id) => {
+
+  const handlePress = id => {
     setAlertVisible(true);
-      // console.log(id);
-      setDeleteID(id)
+    // console.log(id);
+    setDeleteID(id);
   };
-  const handlePressOK = (id) => {
+  const handlePressOK = id => {
     setAlertVisible(false);
-    console.log(deleteID)
+    console.log(deleteID);
   };
 
   const handlePressCancel = () => {
@@ -59,7 +58,6 @@ const SearchActivity = props => {
   const ViewActivity = data => {
     props.navigation.navigate('ViewEditActivity', {data, view: false});
   };
-
 
   return (
     <View style={{flex: 1}} testID="search-activity">
