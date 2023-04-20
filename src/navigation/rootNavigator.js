@@ -4,10 +4,12 @@ import CreateActivity from '../screens/CreateActivity';
 import SearchActivity from '../screens/SerachActivity';
 import CreateWeeklyPlan from '../screens/CreateWeeklyPlan';
 import ViewEditActivity from '../screens/ViewEditActivity';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+const Drawer = createDrawerNavigator();
 
 const StackNavigator = createNativeStackNavigator();
 
-const RootNavigator = () => {
+const StackNavigation = () => {
   return (
     <StackNavigator.Navigator>
       <StackNavigator.Group
@@ -61,6 +63,18 @@ const RootNavigator = () => {
         />
       </StackNavigator.Group>
     </StackNavigator.Navigator>
+  );
+};
+
+const RootNavigator = () => {
+  return (
+    <Drawer.Navigator initialRouteName="Home">
+      <Drawer.Screen
+        options={{headerShown: false}}
+        name="Home"
+        component={StackNavigation}
+      />
+    </Drawer.Navigator>
   );
 };
 
