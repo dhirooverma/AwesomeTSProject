@@ -40,6 +40,11 @@ const CreateWeeklyPlan = props => {
   const prePopulateWeeklyPlan = useRoute()?.params?.prePopulateWeeklyPlan ?? {};
   const viewMode = useRoute()?.params?.viewMode;
 
+  const timesOfTheDay = MASTERS_EE.type.reduce((res, val) => {
+    res[val.key] = val;
+    return res;
+  }, {});
+
   const getActivityObject = activities => {
     let activityObject = {};
     activities.forEach(activity => {
@@ -139,31 +144,46 @@ const CreateWeeklyPlan = props => {
    * @param {*} ActivityTypeKey key from activity type select box
    * @param {*} weekday weekday monday to friday
    */
-  const addActivityModal = (ActivityTypeKey, weekday) => {
-    modalRef.current = {ActivityTypeKey, weekday};
+  const addActivityModal = (
+    ActivityTypeKey,
+    weekday,
+    preFilledActivityLibraryID,
+    preFilledActivityId,
+  ) => {
+    if (preFilledActivityLibraryID) {
+      setActivityOptions(preFilledActivityLibraryID, ActivityTypeKey);
+    }
+    modalRef.current = {
+      ActivityTypeKey,
+      weekday,
+      preFilledActivityLibraryID,
+      preFilledActivityId,
+    };
     openModal();
   };
 
   const addPlan = (planData = {}) => {
     const libraryData = activityLibraryData[planData?.ActivityLibraryID] ?? {};
+    const activityData = activityOptionsData[planData?.activityId] ?? {};
+    const activitiesDetails = {
+      ActivityId: activityData?.ActivityId,
+      ActivityName: activityData?.ActivityName,
+      ActivityDescription: activityData?.ActivityDescription,
+      ActivityTypeKey: planData?.ActivityTypeKey,
+      ActivityLibraryID: libraryData?.key,
+      ActivityLibraryName: libraryData?.value,
+      TimeOfTheDay: timesOfTheDay[activityData?.ActivityTypeKey]?.value,
+    };
     if (weeklyPlanData[planData?.weekday]) {
       weeklyPlanData[planData?.weekday].Activities[planData?.ActivityTypeKey] =
-        {
-          ...activityOptionsData[planData?.activityId],
-          ActivityTypeKey: planData?.ActivityTypeKey,
-        };
+        activitiesDetails;
     } else {
       weeklyPlanData[planData?.weekday] = {
         Day: planData?.weekday,
         Date: '10-Apr-2023',
         isHoliday: 'No',
         Activities: {
-          [planData?.ActivityTypeKey]: {
-            ...activityOptionsData[planData?.activityId],
-            ActivityTypeKey: planData?.ActivityTypeKey,
-            ActivityLibraryID: libraryData?.key,
-            ActivityLibraryName: libraryData?.value,
-          },
+          [planData?.ActivityTypeKey]: activitiesDetails,
         },
       };
     }
@@ -173,7 +193,14 @@ const CreateWeeklyPlan = props => {
   const renderCell = (key, weekday) => {
     return (
       <TouchableOpacity
-        onPress={() => addActivityModal(key, weekday)}
+        onPress={() =>
+          addActivityModal(
+            key,
+            weekday,
+            weeklyPlanData?.[weekday]?.Activities?.[key]?.ActivityLibraryID,
+            weeklyPlanData?.[weekday]?.Activities?.[key]?.ActivityId,
+          )
+        }
         style={weeklyStyles.cellStyle2}>
         <Text
           numberOfLines={1}
@@ -312,7 +339,7 @@ const CreateWeeklyPlan = props => {
             }}
           />
           <View
-            pointerEvents={viewMode ? 'none' : 'auto'}
+            pointerEvents={viewMode ? 'auto' : 'auto'}
             style={{borderWidth: 1, marginBottom: 20, marginTop: 50}}>
             <View
               style={{
@@ -328,22 +355,21 @@ const CreateWeeklyPlan = props => {
                 </View>
               ))}
             </View>
-            {MASTERS_EE.type &&
-              MASTERS_EE.type.map((data, ind) => (
-                <View
-                  key={ind}
-                  style={{
-                    flexDirection: 'row',
-                    borderTopWidth: 0.5,
-                  }}>
-                  <View style={weeklyStyles.cellStyle2}>
-                    <Text numberOfLines={1} style={[weeklyStyles.flexStart]}>
-                      {data.name ?? ''}
-                    </Text>
-                  </View>
-                  {weekdayArray.map(week => renderCell(data.key, week))}
+            {Object.values(timesOfTheDay).map((data, ind) => (
+              <View
+                key={ind}
+                style={{
+                  flexDirection: 'row',
+                  borderTopWidth: 0.5,
+                }}>
+                <View style={weeklyStyles.cellStyle2}>
+                  <Text numberOfLines={1} style={[weeklyStyles.flexStart]}>
+                    {data.name ?? ''}
+                  </Text>
                 </View>
-              ))}
+                {weekdayArray.map(week => renderCell(data.key, week))}
+              </View>
+            ))}
           </View>
           <Label title={'Notes'} />
           <Controller
@@ -386,6 +412,7 @@ const CreateWeeklyPlan = props => {
           />
         </View>
       )}
+
       <PlanModal
         activityLibraryData={Object.values(activityLibraryData)}
         activityOptionsData={Object.values(activityOptionsData)}
@@ -394,6 +421,8 @@ const CreateWeeklyPlan = props => {
         isVisible={isVisible}
         ActivityTypeKey={modalRef.current.ActivityTypeKey}
         weekday={modalRef.current.weekday}
+        preFilledActivityLibraryID={modalRef.current.preFilledActivityLibraryID}
+        preFilledActivityId={modalRef.current.preFilledActivityId}
         addPlan={addPlan}
       />
     </View>

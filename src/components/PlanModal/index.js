@@ -18,9 +18,10 @@ const PlanModal = ({
   ActivityTypeKey,
   weekday,
   addPlan,
+  preFilledActivityLibraryID,
+  preFilledActivityId,
 }) => {
   const {control, handleSubmit, getValues, reset} = useForm({
-    defaultValues: {},
     mode: 'onChange',
     reValidateMode: 'onChange',
   });
@@ -73,6 +74,7 @@ const PlanModal = ({
             <Controller
               control={control}
               name="activity_library"
+              defaultValue={preFilledActivityLibraryID}
               rules={{
                 required: {
                   value: true,
@@ -105,6 +107,7 @@ const PlanModal = ({
             <Controller
               control={control}
               name="select_activity"
+              defaultValue={preFilledActivityId}
               rules={{
                 required: {
                   value: true,
