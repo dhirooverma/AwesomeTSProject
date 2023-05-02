@@ -317,7 +317,7 @@ const CreateActivity = props => {
             rules={{
               required: {
                 value: true,
-                message: 'Library is required!',
+                message: 'Scale is required!',
               },
               validate: value =>
                 value === SELECTBOX_DEFAULT_LABEL
@@ -349,6 +349,14 @@ const CreateActivity = props => {
             disabled={true}
             control={control}
             name="select_goals"
+            rules={{
+              required: {
+                value: true,
+                message: 'Goals are required!',
+              },
+              validate: value =>
+                !value.length ? 'Please select valid options' : undefined,
+            }}
             render={({
               field: {onChange, value},
               formState: {isSubmitted, errors},
@@ -376,9 +384,9 @@ const CreateActivity = props => {
                     }
                     searchInputStyle={styles.searchInput}
                   />
-                  {isSubmitted && errors?.select_scale?.message && (
+                  {isSubmitted && errors?.select_goals?.message && (
                     <Text style={{color: 'red'}}>
-                      {errors?.select_scale?.message}
+                      {errors?.select_goals?.message}
                     </Text>
                   )}
                 </View>
